@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="googlebot" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>UTAG · Simulador de Estructura 2026</title>
+<style>
+:root{
+ --bg:#0E1526; --bg2:#141D33; --panel:#18223C; --panel2:#1D2846; --line:#2B3757;
+ --text:#E6EAF3; --muted:#93A0BC; --dim:#6C7A99;
+ --gold:#D8B23C; --green:#3FBF74; --red:#E36A5C; --steel:#6C8EE0; --blue:#7EA2F0;
+ --serif:Georgia,'Times New Roman',serif;
+ --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);color:var(--text);background:var(--bg);font-size:14px;line-height:1.45}
+header{background:var(--bg2);padding:22px 34px 0;border-bottom:1px solid var(--line)}
+.brand{font-size:11.5px;letter-spacing:1.6px;font-weight:700;color:var(--dim)}
+h1{font-family:var(--serif);font-size:27px;font-weight:700;margin:8px 0 3px;color:#fff}
+.sub{font-size:13.5px;color:var(--muted);margin-bottom:16px}
+nav{display:flex;gap:2px;flex-wrap:wrap}
+nav button{background:transparent;border:0;border-bottom:3px solid transparent;color:var(--muted);
+ font-family:var(--sans);font-size:13.5px;font-weight:600;padding:11px 17px;cursor:pointer;white-space:nowrap}
+nav button:hover{color:#fff}
+nav button.on{color:#fff;border-bottom-color:var(--gold)}
+main{padding:26px 34px 60px;max-width:1440px}
+.page{display:none} .page.on{display:block}
+h2{font-family:var(--serif);font-size:21px;color:#fff;margin-bottom:4px}
+h2+.lead{font-size:13px;color:var(--muted);font-style:italic;margin-bottom:18px}
+h3{font-family:var(--serif);font-size:16px;color:#fff;margin:24px 0 10px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin-bottom:22px}
+.kpi{border:1px solid var(--line);border-radius:9px;padding:15px 18px;position:relative;overflow:hidden;background:var(--panel)}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold)}
+.kpi.n::before{background:var(--steel)} .kpi.g::before{background:var(--green)}
+.kpi.r::before{background:var(--red)} .kpi.s::before{background:var(--blue)}
+.kpi .lb{font-size:10.5px;letter-spacing:.9px;font-weight:700;color:var(--dim);text-transform:uppercase}
+.kpi .vl{font-family:var(--serif);font-size:25px;font-weight:700;color:#fff;margin:5px 0 3px}
+.kpi .vl.g{color:var(--green)} .kpi .vl.r{color:var(--red)} .kpi .vl.s{color:var(--blue)}
+.kpi .sb{font-size:11.5px;color:var(--muted)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead th{background:var(--panel2);color:#fff;font-size:11.5px;font-weight:700;padding:9px 12px;text-align:left}
+thead th.r{text-align:right}
+tbody td{padding:8px 12px;border-bottom:1px solid var(--line);color:var(--text)}
+tbody td.r{text-align:right} tbody tr:nth-child(even){background:rgba(255,255,255,.022)}
+tbody tr.off{opacity:.34}
+tfoot td{background:var(--panel2);color:#fff;font-weight:700;padding:9px 12px}
+tfoot td.r{text-align:right}
+.tw{border:1px solid var(--line);border-radius:9px;overflow:hidden;background:var(--panel)}
+.pos{color:var(--green);font-weight:700} .neg{color:var(--red);font-weight:700}
+.muted{color:var(--dim)}
+input[type=number]{width:100px;padding:5px 8px;border:1px solid var(--line);border-radius:5px;background:var(--bg2);
+ font-family:var(--sans);font-size:12.5px;text-align:right;color:var(--text)}
+input[type=number]:focus{outline:0;border-color:var(--steel)}
+input[type=text]{padding:6px 9px;border:1px solid var(--line);border-radius:5px;font-size:12.5px;
+ font-family:var(--sans);background:var(--bg2);color:var(--text)}
+input::placeholder{color:var(--dim)}
+select{padding:6px 8px;border:1px solid var(--line);border-radius:5px;font-size:12.5px;
+ font-family:var(--sans);background:var(--bg2);color:var(--text)}
+input[type=range]{accent-color:var(--gold);width:100%}
+.sw{position:relative;display:inline-block;width:38px;height:21px;vertical-align:middle}
+.sw input{opacity:0;width:0;height:0}
+.sl{position:absolute;cursor:pointer;inset:0;background:#3A466A;transition:.15s;border-radius:21px}
+.sl:before{content:"";position:absolute;height:15px;width:15px;left:3px;bottom:3px;background:#fff;transition:.15s;border-radius:50%}
+input:checked+.sl{background:var(--green)}
+input:checked+.sl:before{transform:translateX(17px)}
+.grp{background:var(--panel2);font-weight:700;color:var(--blue);font-size:12.5px}
+.note{background:rgba(216,178,60,.11);border-left:4px solid var(--gold);border-radius:8px;padding:14px 18px;margin:18px 0;font-size:13px}
+.note b{color:var(--gold)}
+.info{background:rgba(108,142,224,.11);border-left:4px solid var(--steel);border-radius:8px;padding:14px 18px;margin:18px 0;font-size:13px}
+.info b{color:var(--blue)}
+.bar{height:11px;background:#26304C;border-radius:3px;overflow:hidden;min-width:60px}
+.bar>span{display:block;height:100%;border-radius:3px;background:var(--steel)}
+.btn{background:var(--steel);color:#fff;border:0;border-radius:6px;padding:8px 15px;font-size:12.5px;
+ font-weight:600;cursor:pointer;font-family:var(--sans)}
+.btn:hover{filter:brightness(1.1)}
+.btn.ghost{background:transparent;color:var(--muted);border:1px solid var(--line)}
+.btn.sm{padding:5px 10px;font-size:11.5px}
+.btn.del{background:transparent;color:var(--red);border:0;font-size:16px;padding:2px 7px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.chart{width:100%;height:250px}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+.plgrid{display:grid;grid-template-columns:2.1fr 1fr;gap:22px;align-items:start}
+@media(max-width:900px){.plgrid{grid-template-columns:1fr}}
+@media(max-width:900px){.split{grid-template-columns:1fr}}
+.tag{display:inline-block;padding:2px 9px;border-radius:11px;font-size:10.5px;font-weight:700;color:#0E1526}
+.tag.a{background:var(--green)} .tag.m{background:var(--gold)} .tag.l{background:#5D6B8C;color:#fff}
+.tag.c{background:var(--steel);color:#fff}
+.band{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0}
+.band>div{padding:12px;border-radius:8px;border:1px solid var(--line);text-align:center;font-size:12px;
+ color:var(--muted);background:var(--panel)}
+.band>div.on{background:var(--gold);color:#0E1526;border-color:var(--gold);font-weight:600}
+.band .bx{font-family:var(--serif);font-size:17px;font-weight:700;display:block;margin-bottom:2px;color:#fff}
+.band>div.on .bx{color:#0E1526}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px}
+.card h4{font-family:var(--serif);font-size:16px;color:#fff;margin-bottom:3px}
+.card .cs{font-size:12px;color:var(--muted);font-style:italic;margin-bottom:14px}
+.fld{margin-bottom:13px}
+.fld label{display:block;font-size:11.5px;color:var(--muted);margin-bottom:5px}
+.big{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--green)}
+footer{border-top:1px solid var(--line);margin:0 34px;padding:16px 0;font-size:11px;color:var(--dim);
+ display:flex;justify-content:space-between}
+.mini{font-size:11.5px;color:var(--muted)}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">UTAG — DTP LLC</div>
+  <h1>Simulador de Estructura · Agosto – Diciembre 2026</h1>
+  <div class="sub">Herramienta para revisar recursos y ver su impacto en el resultado, la caja y el valor de la agencia</div>
+  <nav>
+    <button class="on" data-p="dash">Dashboard</button>
+    <button data-p="rec">Recursos</button>
+    <button data-p="est">Estructura y gastos</button>
+    <button data-p="cli">Clientes</button>
+    <button data-p="fin">Rendimientos financieros</button>
+    <button data-p="val">Valuación</button>
+  </nav>
+</header>
+<main>
+<section class="page on" id="dash">
+  <h2>Resultado proyectado</h2>
+  <div class="lead">Agosto a diciembre 2026 · todo se recalcula con los cambios que hagas en las otras hojas</div>
+  <div class="kpis">
+    <div class="kpi n"><div class="lb">Resultado Ago–Dic</div><div class="vl" id="k-res">—</div><div class="sb" id="k-res-sb">—</div></div>
+    <div class="kpi s"><div class="lb">Resultado 2026</div><div class="vl s" id="k-fy">—</div><div class="sb">incluye Ene–Jul cerrado</div></div>
+    <div class="kpi"><div class="lb">Estructura mensual</div><div class="vl" id="k-est">—</div><div class="sb" id="k-est-sb">—</div></div>
+    <div class="kpi g"><div class="lb">Runway</div><div class="vl g" id="k-run">—</div><div class="sb" id="k-run-sb">—</div></div>
+    <div class="kpi r"><div class="lb">Punto de equilibrio</div><div class="vl r" id="k-eq">—</div><div class="sb" id="k-eq-sb">—</div></div>
+  </div>
+  <h3>Resultado mes a mes</h3>
+  <div id="chart" class="chart"></div>
+  <div class="plgrid" style="margin-top:18px">
+    <div>
+      <div class="tw">
+      <table><thead><tr><th>Concepto</th><th class="r">Ago</th><th class="r">Sep</th><th class="r">Oct</th>
+        <th class="r">Nov</th><th class="r">Dic</th><th class="r">Total</th></tr></thead>
+        <tbody id="tb-pl"></tbody></table></div>
+      <div class="mini" style="margin-top:8px">Resultado <b>operativo</b>: rentabilidad menos estructura e indemnizaciones. Coincide con la tabla de escenarios del pre-read.</div>
+    </div>
+    <div class="card" style="margin:0">
+      <div class="ct">Resultado financiero · Ago–Dic</div>
+      <div class="tw" style="margin-top:10px"><table><tbody id="tb-findash"></tbody></table></div>
+      <div class="mini" style="margin-top:8px">Va aparte del resultado operativo, pero suma al resultado del año y a la caja. Se ajusta en la hoja de rendimientos.</div>
+    </div>
+  </div>
+  <div class="split" style="margin-top:26px">
+    <div><h3>Posición de caja</h3>
+      <div class="tw"><table><tbody id="tb-caja"></tbody></table></div>
+      <div class="mini" style="margin-top:8px">Actualizado al cobro de FIFA. El runway asume que se cobra la posición neta y no entra revenue nuevo.</div></div>
+    <div><h3>El año completo</h3>
+      <div class="tw"><table><tbody id="tb-anio"></tbody></table></div>
+      <div class="mini" style="margin-top:8px">Enero a julio son resultados cerrados y no se modifican.</div></div>
+  </div>
+  <div class="note" id="lectura"></div>
+</section>
+
+<section class="page" id="rec">
+  <h2>Recursos</h2>
+  <div class="lead">Apagá un recurso, elegí su mes de salida o ajustá su costo · el impacto se refleja en el dashboard</div>
+  <div class="kpis">
+    <div class="kpi n"><div class="lb">Costo de equipo · mes</div><div class="vl" id="r-mes">—</div><div class="sb" id="r-mes-sb">—</div></div>
+    <div class="kpi s"><div class="lb">Ahorro Ago–Dic</div><div class="vl s" id="r-ah5">—</div><div class="sb" id="r-ah5-sb">sobre el escenario base</div></div>
+    <div class="kpi r"><div class="lb">Indemnizaciones</div><div class="vl r" id="r-ind">—</div><div class="sb" id="r-ind-sb">cargo excepcional, una sola vez</div></div>
+    <div class="kpi"><div class="lb">Efecto neto en caja</div><div class="vl" id="r-neto">—</div><div class="sb" id="r-neto-sb">ahorro menos indemnizaciones</div></div>
+  </div>
+  <div class="row" style="margin-bottom:14px">
+    <button class="btn ghost sm" id="rec-reset">Restablecer escenario base</button>
+    <span class="mini">Indemnización = costo mensual × años de antigüedad × 1,10. Menos de un año cuenta como uno. Sin preaviso.</span>
+  </div>
+  <div class="mini" style="margin:-4px 0 12px">El <b>mes de salida</b> se habilita al apagar el recurso con el botón de la izquierda. El recurso cobra hasta ese mes inclusive, la indemnización se paga ahí y el ahorro empieza al mes siguiente.</div>
+  <div class="tw"><table>
+    <thead><tr><th style="width:44px">Activo</th><th>Recurso</th><th class="r" style="width:118px">Costo mensual</th>
+      <th class="r" style="width:88px">Antigüedad</th><th class="r" style="width:118px">Indemnización</th>
+      <th style="width:138px">Mes de salida</th><th class="r" style="width:112px">Total Ago–Dic</th></tr></thead>
+    <tbody id="tb-rec"></tbody>
+    <tfoot><tr><td></td><td>Total recursos</td><td class="r" id="rf-mes"></td><td></td><td class="r" id="rf-ind"></td><td></td><td class="r" id="rf-tot"></td></tr></tfoot>
+  </table></div>
+  <div class="card" style="margin-top:16px">
+    <div class="ct">Costo mensual e indemnizaciones · Agosto a Diciembre</div>
+    <div class="ch" style="height:260px" id="chart-rec"></div>
+    <div class="mini" style="margin-top:8px">La barra base es el costo mensual del equipo y la estructura. La franja superior son las indemnizaciones del mes en que sale cada recurso.</div>
+  </div>
+  <div class="info" id="rec-lectura"></div>
+  <div class="card" style="margin-top:16px">
+    <div class="ct">Qué cuesta recortar cada recurso · saliendo en agosto</div>
+    <div class="tw" style="margin-top:10px"><table>
+      <thead><tr><th>Recurso</th><th class="r" style="width:150px">Ahorro Sep–Dic</th>
+        <th class="r" style="width:140px">Indemnización</th><th class="r" style="width:130px">Neto 2026</th></tr></thead>
+      <tbody id="tb-corte"></tbody>
+    </table></div>
+    <div class="mini" style="margin-top:8px">El ahorro incluye las cargas sociales que se dan de baja con cada persona de nómina. Los netos negativos son recursos que en 2026 cuestan más de lo que ahorran: el beneficio recién aparece en 2027.</div>
+  </div>
+</section>
+
+<section class="page" id="est">
+  <h2>Estructura y gastos</h2>
+  <div class="lead">Cargas sociales, beneficios y gastos de estructura · valores mensuales</div>
+  <div class="kpis">
+    <div class="kpi n"><div class="lb">Estructura y cargas · mes</div><div class="vl" id="e-mes">—</div><div class="sb" id="e-mes-sb">—</div></div>
+    <div class="kpi g"><div class="lb">Ahorro mensual</div><div class="vl g" id="e-ah">—</div><div class="sb" id="e-ah-sb">vs. escenario base</div></div>
+    <div class="kpi s"><div class="lb">Total Ago–Dic</div><div class="vl s" id="e-tot">—</div><div class="sb">cargas + gastos</div></div>
+  </div>
+  <div class="row" style="margin-bottom:14px"><button class="btn ghost sm" id="est-reset">Restablecer escenario base</button></div>
+  <div class="tw"><table>
+    <thead><tr><th style="width:44px">Activo</th><th>Concepto</th><th class="r" style="width:130px">Costo mensual</th>
+      <th class="r" style="width:120px">Total Ago–Dic</th></tr></thead>
+    <tbody id="tb-est"></tbody>
+    <tfoot><tr><td></td><td>Total</td><td class="r" id="ef-mes"></td><td class="r" id="ef-tot"></td></tr></tfoot>
+  </table></div>
+  <div class="info">Las <b>cargas sociales, OSDE y Edenred</b> se ajustan solas: bajan en proporción a la nómina argentina que quede activa (base $15.275). Los <b>rendimientos financieros</b> se restan de este costo — mirá la hoja de rendimientos para ver cuánto compensan.</div>
+</section>
+<section class="page" id="cli">
+  <h2>Clientes y pipeline</h2>
+  <div class="lead">Lo que queda de agosto a diciembre · activá los proyectos que quieras incluir en el resultado</div>
+  <div class="kpis">
+    <div class="kpi g"><div class="lb">Rentabilidad Ago–Dic</div><div class="vl g" id="c-tot">—</div><div class="sb" id="c-tot-sb">—</div></div>
+    <div class="kpi n"><div class="lb">Base recurrente · mes</div><div class="vl" id="c-rec">—</div><div class="sb" id="c-rec-sb">—</div></div>
+    <div class="kpi s"><div class="lb">Proyectos puntuales</div><div class="vl s" id="c-proy">—</div><div class="sb">one-shot del período</div></div>
+    <div class="kpi"><div class="lb">Cobertura de estructura</div><div class="vl" id="c-cob">—</div><div class="sb">base recurrente / estructura</div></div>
+  </div>
+  <h3>Negocio confirmado</h3>
+  <div class="tw"><table><thead><tr><th style="width:44px">Activo</th><th>Cliente / proyecto</th><th style="width:110px">Tipo</th>
+    <th class="r">Ago</th><th class="r">Sep</th><th class="r">Oct</th><th class="r">Nov</th><th class="r">Dic</th>
+    <th class="r" style="width:100px">Total</th></tr></thead><tbody id="tb-act"></tbody></table></div>
+  <h3>Pipeline · probabilidad media <span class="tag m">Mid</span></h3>
+  <div class="tw"><table><thead><tr><th style="width:44px">Activo</th><th>Cliente / proyecto</th><th style="width:110px">Tipo</th>
+    <th class="r">Ago</th><th class="r">Sep</th><th class="r">Oct</th><th class="r">Nov</th><th class="r">Dic</th>
+    <th class="r" style="width:100px">Total</th></tr></thead><tbody id="tb-mid"></tbody></table></div>
+  <h3>Pipeline · probabilidad baja <span class="tag l">Low</span></h3>
+  <div class="tw"><table><thead><tr><th style="width:44px">Activo</th><th>Cliente / proyecto</th><th style="width:110px">Tipo</th>
+    <th class="r">Ago</th><th class="r">Sep</th><th class="r">Oct</th><th class="r">Nov</th><th class="r">Dic</th>
+    <th class="r" style="width:100px">Total</th></tr></thead><tbody id="tb-low"></tbody></table></div>
+  <h3>Proyectos propios <span class="tag c">Personalizado</span></h3>
+  <div class="tw"><table><thead><tr><th style="width:44px">Activo</th><th>Cliente / proyecto</th><th style="width:110px">Tipo</th>
+    <th class="r">Ago</th><th class="r">Sep</th><th class="r">Oct</th><th class="r">Nov</th><th class="r">Dic</th>
+    <th class="r" style="width:100px">Total</th><th style="width:40px"></th></tr></thead><tbody id="tb-cus"></tbody></table></div>
+  <div class="card" style="margin-top:12px">
+    <div class="row">
+      <button class="btn" id="add-open">+ Agregar proyecto</button>
+      <span class="mini">Sumá una oportunidad que tengas en mente y mirá qué pasa con el resultado.</span>
+    </div>
+    <div id="add-form" style="display:none;margin-top:14px">
+      <div class="row">
+        <input type="text" id="np-nom" placeholder="Nombre del proyecto" style="width:250px">
+        <select id="np-tipo"><option value="rec">Recurrente</option><option value="proy">Proyecto puntual</option></select>
+        <input type="number" id="np-monto" placeholder="Monto mensual" style="width:130px">
+        <select id="np-desde"><option value="0">Desde Agosto</option><option value="1">Desde Septiembre</option>
+          <option value="2">Desde Octubre</option><option value="3">Desde Noviembre</option><option value="4">Desde Diciembre</option></select>
+        <select id="np-hasta"><option value="4">Hasta Diciembre</option><option value="3">Hasta Noviembre</option>
+          <option value="2">Hasta Octubre</option><option value="1">Hasta Septiembre</option><option value="0">Solo Agosto</option></select>
+        <button class="btn sm" id="np-save">Agregar</button>
+        <button class="btn ghost sm" id="np-cancel">Cancelar</button>
+      </div>
+      <div class="mini" style="margin-top:8px">Para un proyecto de un solo pago, elegí el mismo mes en "desde" y "hasta".</div>
+    </div>
+  </div>
+  <div class="note" id="cli-nota"></div>
+</section>
+
+<section class="page" id="fin">
+  <h2>Rendimientos financieros</h2>
+  <div class="lead">Lo que gana la caja hoy y lo que podría ganar · el objetivo principal del área</div>
+  <div class="kpis">
+    <div class="kpi g"><div class="lb">Intereses ganados</div><div class="vl g" id="f-gan">—</div><div class="sb" id="f-gan-sb">enero a julio</div></div>
+    <div class="kpi r"><div class="lb">Costos financieros</div><div class="vl r" id="f-cos">—</div><div class="sb" id="f-cos-sb">línea de crédito</div></div>
+    <div class="kpi s"><div class="lb">Resultado mensual Ago–Dic</div><div class="vl s" id="f-pot">—</div><div class="sb" id="f-pot-sb">—</div></div>
+    <div class="kpi n"><div class="lb">Resultado financiero 2026</div><div class="vl" id="f-anio">—</div><div class="sb" id="f-anio-sb">—</div></div>
+  </div>
+  <h3>Cómo vino el año y qué se espera</h3>
+  <div class="mini" style="margin:-6px 0 10px">Enero a julio son resultados cerrados. Agosto a diciembre es la previsión con el escenario base de esta hoja — si movés los montos, las tasas, el tipo de cambio o apagás la línea de crédito, la previsión y el resultado del año se recalculan.</div>
+  <div id="fchart" class="chart" style="height:230px"></div>
+  <div class="tw" style="margin-top:14px"><table>
+    <thead><tr><th>Concepto</th><th class="r">Ene</th><th class="r">Feb</th><th class="r">Mar</th><th class="r">Abr</th><th class="r">May</th><th class="r">Jun</th><th class="r">Jul</th><th class="r" style="color:var(--blue)">Ago</th><th class="r" style="color:var(--blue)">Sep</th><th class="r" style="color:var(--blue)">Oct</th><th class="r" style="color:var(--blue)">Nov</th><th class="r" style="color:var(--blue)">Dic</th><th class="r">Total</th></tr></thead>
+    <tbody id="tb-fin"></tbody></table></div>
+
+  <h3>De dónde viene y a dónde podría ir</h3>
+  <div class="split">
+    <div class="card">
+      <h4>Argentina — hoy</h4>
+      <div class="cs">FCI Santander · única fuente de rendimiento actual</div>
+      <div class="fld"><label>Monto colocado en el FCI (USD)</label>
+        <input type="number" id="ar-monto" value="120000" step="5000" style="width:150px"></div>
+      <div class="fld"><label>Rendimiento anual en pesos — <span id="ar-tasa-lb">23%</span></label>
+        <input type="range" id="ar-tasa" min="0" max="40" step="1" value="23"></div>
+      <div class="fld"><label>Tipo de cambio proyectado — <span id="ar-fx-lb">1.500</span> <span class="muted">(hoy 1.500)</span></label>
+        <input type="range" id="ar-fx" min="1300" max="2000" step="10" value="1500"></div>
+      <div style="border-top:1px solid var(--line);padding-top:13px;margin-top:4px">
+        <div class="mini">Rendimiento real mensual en USD</div>
+        <div class="big" id="ar-mes">—</div>
+        <div class="mini" id="ar-anio">—</div>
+      </div>
+      <div class="mini" style="margin-top:12px" id="ar-warn">Julio rindió $2.327 sobre el FCI. El rendimiento es en pesos: si el dólar se mueve, el resultado en USD cambia.</div>
+    </div>
+    <div class="card">
+      <h4>Estados Unidos — potencial</h4>
+      <div class="cs">Hoy la caja está en Chase al 0% · qué pasaría si se coloca</div>
+      <div class="fld"><label>Monto a colocar (USD)</label>
+        <input type="number" id="us-monto" value="200000" step="10000" style="width:150px"></div>
+      <div class="fld"><label>Tasa anual — <span id="us-tasa-lb">4,5%</span></label>
+        <input type="range" id="us-tasa" min="0" max="8" step="0.1" value="4.5"></div>
+      <div style="border-top:1px solid var(--line);padding-top:13px;margin-top:4px">
+        <div class="mini">Rendimiento mensual</div>
+        <div class="big" id="us-mes">—</div>
+        <div class="mini" id="us-anio">—</div>
+      </div>
+      <div class="mini" style="margin-top:12px">Money market de gobierno: ~4–4,5% anual, liquidez inmediata, riesgo mínimo. <b>El alta se estima para los primeros días de octubre</b>, así que agosto y septiembre no rinden nada en Estados Unidos.</div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:20px">
+    <div class="row" style="justify-content:space-between">
+      <div>
+        <h4 style="margin-bottom:2px">Costo financiero — línea de crédito</h4>
+        <div class="cs" style="margin-bottom:0">Es lo que cuesta mantener activa la credit line. Apagala para ver el efecto de cancelarla.</div>
+      </div>
+      <label class="sw"><input type="checkbox" id="cl-on" checked><span class="sl"></span></label>
+    </div>
+    <div class="row" style="margin-top:14px">
+      <div class="fld" style="margin:0"><label>Costo mensual (USD)</label>
+        <input type="number" id="cl-costo" value="350" step="25" style="width:130px"></div>
+      <div style="margin-left:20px"><div class="mini">Impacto anual</div>
+        <div class="big" style="color:var(--red);font-size:22px" id="cl-anio">—</div></div>
+    </div>
+  </div>
+  <div class="note" id="fin-nota"></div>
+</section>
+
+<section class="page" id="val">
+  <h2>Lectura de valuación</h2>
+  <div class="lead">Cómo el escenario que armaste cambia lo que vale la agencia · año completo 2026</div>
+
+  <h3>El año 2026</h3>
+  <div class="kpis">
+    <div class="kpi n"><div class="lb">Rentabilidad 2026</div><div class="vl" id="v-gp">—</div><div class="sb">Ene–Jul cerrado + proyección</div></div>
+    <div class="kpi s"><div class="lb">Resultado 2026</div><div class="vl s" id="v-res">—</div><div class="sb" id="v-res-sb">—</div></div>
+    <div class="kpi g"><div class="lb">Margen 2026</div><div class="vl g" id="v-mar">—</div><div class="sb">arriba de 20% suma múltiplo</div></div>
+  </div>
+
+  <h3>La calidad del revenue — lo que mira un comprador</h3>
+  <div class="kpis">
+    <div class="kpi"><div class="lb">Revenue recurrente 2026</div><div class="vl" id="v-rec">—</div><div class="sb" id="v-rec-sb">—</div></div>
+    <div class="kpi s"><div class="lb">Recurrente hacia adelante</div><div class="vl s" id="v-fwd">—</div><div class="sb">run-rate de agosto en adelante</div></div>
+    <div class="kpi r"><div class="lb">Concentración</div><div class="vl r" id="v-con">—</div><div class="sb" id="v-con-sb">—</div></div>
+  </div>
+
+  <h3>Banda de múltiplo según el perfil de revenue</h3>
+  <div class="band" id="bands">
+    <div data-b="0"><span class="bx">2–4x</span>Solo proyectos, generalista</div>
+    <div data-b="1"><span class="bx">4–6x</span>Mezcla de retainer y proyecto</div>
+    <div data-b="2"><span class="bx">6–9x</span>Retainer 60%+ del revenue</div>
+    <div data-b="3"><span class="bx">7–12x</span>Especialista con capacidad propia</div>
+  </div>
+  <div class="note" id="val-nota"></div>
+
+  <h3>Los factores que bajan el múltiplo</h3>
+  <div class="tw"><table><thead><tr><th>Factor</th><th style="width:150px">Hoy</th><th style="width:210px">Umbral</th><th>Efecto</th></tr></thead>
+    <tbody id="tb-val"></tbody></table></div>
+  <div class="info">Umbrales de la sección 4 del pre-read (FE International, CT Acquisitions, Breakwater M&amp;A, 2026). El retainer de FIFA no cuenta como recurrente: era el fee de un proyecto con fecha de fin.</div>
+
+  <div class="card" style="margin-top:26px;border-left:4px solid var(--gold)">
+    <h4>Cómo leer esta hoja en la reunión</h4>
+    <div class="cs">Dos lecturas que conviene tener a mano</div>
+    <p style="margin-bottom:14px">Si activan el pipeline mid y low, la concentración baja de 63% a 60% y el recurrente sube de 53% a 57%.
+       Es la prueba visual de que cerrar Axa México importa más por lo que hace al perfil de la empresa que por los $38.000.</p>
+    <p>Recortar estructura mejora el margen, pero no mueve ni el recurrente ni la concentración.
+       Bajar costos hace la empresa más eficiente; no la hace más vendible. Para eso hace falta revenue recurrente nuevo.</p>
+  </div>
+</section>
+</main>
+<footer><span>Franco Figueroa · Finance &amp; Administration Manager</span><span>UTAG — DTP LLC · Agosto 2026</span></footer>
+<script>
+const M=['Ago','Sep','Oct','Nov','Dic'];
+const MF=['Ene','Feb','Mar','Abr','May','Jun','Jul'];
+const MF12=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+const CERR={gp:[68738,125043,80410,79914,111477,149664,493173],
+            ex:[56358,72056,72889,73435,75263,81304,79604]};
+const CERR_GP=CERR.gp.reduce((a,b)=>a+b,0), CERR_EX=CERR.ex.reduce((a,b)=>a+b,0);
+const CERR_NET=CERR_GP-CERR_EX;
+// Caja actualizada tras cobrar FIFA y pagar Verben
+const CAJA={disp:872624, cobros:68400, pagos:-93962};
+const CAJA_NETA=CAJA.disp+CAJA.cobros+CAJA.pagos;
+const FIFA_2026=817873;
+// Revenue recurrente Ene-Jul (fee mensual continuo, sin el retainer de FIFA)
+const REC_ENEJUL=242224;
+// Resultado financiero real Ene-Jul
+const FIN={gan:[2227.50,1084.50,3361.97,1175.22,5139.49,1983.38,2327.33],
+           cos:[-371.07,-366.22,-327.53,-358.47,-343.74,-351.45,0]};
+const FIN_GAN=FIN.gan.reduce((a,b)=>a+b,0), FIN_COS=FIN.cos.reduce((a,b)=>a+b,0);
+const FIN_NET=FIN_GAN+FIN_COS, FIN_PROM=FIN_NET/7;
+
+const REC_BASE=[
+ {g:'Equipo Argentina', id:'corsini', n:'Sofía Corsini',        m:[4500,4500,4500,4500,6750], ex:1, ant:[5,1],  nom:2750},
+ {g:'Equipo Argentina', id:'belen',   n:'Belén Figueroa',       m:[3250,3250,3250,3250,4875], ex:1, ant:[7,10], nom:3250},
+ {g:'Equipo Argentina', id:'saul',    n:'Saúl Ramos',           m:[3500,3500,3500,3500,3500], ex:1, ant:[0,3],  nom:0},
+ {g:'Equipo Argentina', id:'candela', n:'Candela Lisún',        m:[2530,2530,2530,2530,3795], ex:1, ant:[4,5],  nom:2530},
+ {g:'Equipo Argentina', id:'alan',    n:'Alan Contreras',       m:[2405,2405,2405,2405,3608], ex:1, ant:[4,5],  nom:2405},
+ {g:'Equipo Argentina', id:'rodrigo', n:'Rodrigo Díaz',         m:[2003,2003,2003,2003,2003], ex:1, ant:[0,10], nom:0},
+ {g:'Equipo Argentina', id:'marcos',  n:'Marcos Garavaglia',    m:[1800,1800,1800,1800,2700], ex:1, ant:[2,7],  nom:0, nota:'Antigüedad a confirmar con Caro'},
+ {g:'Equipo Argentina', id:'agustina',n:'Agustina Castía',      m:[1870,1870,1870,1870,2805], ex:1, ant:[1,6],  nom:1870},
+ {g:'Equipo Argentina', id:'donatella',n:'Donatella Depasqualli',m:[1870,1870,1870,1870,2805],ex:1, ant:[0,10], nom:1870},
+ {g:'Equipo Argentina', id:'depaoli', n:'María Laura de Paoli',  m:[1815,1815,1815,1815,2723],ex:1, ant:[2,7],  nom:0},
+ {g:'Equipo Argentina', id:'melanie', n:'Melanie Villamayor',   m:[600,600,600,600,600],      ex:1, ant:[0,5],  nom:600},
+ {g:'Socias',           id:'cano',    n:'Sofía Cano',           m:[10500,10500,10500,10500,10500], ex:0, ant:null, nom:0},
+ {g:'Socias',           id:'caro',    n:'Carolina Mano',        m:[10500,10500,10500,10500,10500], ex:0, ant:null, nom:0},
+ {g:'Socias',           id:'mary',    n:'Mary Redondo',         m:[10500,10500,10500,10500,10500], ex:0, ant:null, nom:0},
+ {g:'Administración',   id:'franco',  n:'Franco Figueroa',      m:[2300,2300,2300,2300,3450], ex:1, ant:[4,6],  nom:0},
+ {g:'Administración',   id:'fede',    n:'Federico Mano',        m:[900,900,900,900,900],      ex:1, ant:[7,0],  nom:0, nota:'Antigüedad a confirmar'},
+ {g:'Administración',   id:'presi',   n:'Presidencia Arg.',     m:[375,375,375,375,375],      ex:1, ant:null,   nom:0}];
+const IND_UP=1.10;
+const NOM_BASE=15275;
+const CARGAS=['ccss','osde','eden'];
+const EST_BASE=[
+ {g:'Cargas y beneficios', id:'ccss',  n:'Cargas sociales (CCSS)',        m:[2900,2900,2900,2900,3900]},
+ {g:'Cargas y beneficios', id:'osde',  n:'OSDE',                          m:[850,850,850,900,900]},
+ {g:'Cargas y beneficios', id:'eden',  n:'Edenred',                       m:[495,495,495,495,495]},
+ {g:'Gastos de estructura',id:'cont',  n:'Servicios contables',           m:[1200,1200,1200,1200,1200]},
+ {g:'Gastos de estructura',id:'lic',   n:'Licencias y capacitación',      m:[1000,1000,1000,1000,1000]},
+ {g:'Gastos de estructura',id:'mkt',   n:'Marketing y gestión de clientes',m:[700,700,700,700,700]},
+ {g:'Gastos de estructura',id:'rrhh',  n:'Recursos humanos',              m:[0,50,0,0,50]},
+ {g:'Gastos de estructura',id:'fin',   n:'Costo financiero',              m:[51,51,51,51,51]},
+ {g:'Gastos de estructura',id:'viaj',  n:'Viajes',                        m:[0,0,0,0,71]}];
+const CLI_ACT=[
+ {id:'fifa_mc', n:'FIFA — Miami Committee',   t:'proy', m:[45000,0,0,0,0]},
+ {id:'fef_spon',n:'P&G–FEF — Sponsorship',    t:'proy', m:[25000,0,0,0,0]},
+ {id:'fifa_st', n:'FIFA — Fan Fest Staffing', t:'proy', m:[9000,0,0,0,0]},
+ {id:'fifa_cc', n:'FIFA — City Dressing CC',  t:'proy', m:[5000,0,0,0,0]},
+ {id:'fulbo',   n:'Fúlbo — Ecommerce',        t:'rec',  m:[6000,6000,6000,6000,6000]},
+ {id:'axacol_m',n:'AXA Colombia — Media',     t:'rec',  m:[2720,2720,2720,2720,2720]},
+ {id:'concdp',  n:'Concacaf — CDP (iMetriq)', t:'rec',  m:[2500,2500,2500,2500,2500]},
+ {id:'fef_cre', n:'P&G–FEF — Creative Fee',   t:'rec',  m:[2500,2500,2500,2500,2500]},
+ {id:'arc_c',   n:'ArcMental — Creative',     t:'rec',  m:[2038,2038,2038,2038,2038]},
+ {id:'axacol_c',n:'AXA Colombia — Creative',  t:'rec',  m:[1763,1763,1763,1763,1763]},
+ {id:'arc_m',   n:'ArcMental — Media',        t:'rec',  m:[1760,1760,1760,1760,1760]}];
+const CLI_MID=[
+ {id:'mex_c', n:'AXA México — Creative',        t:'rec',  m:[0,5000,5000,5000,5000]},
+ {id:'mex_m', n:'AXA México — Media',           t:'rec',  m:[0,4500,4500,4500,4500]},
+ {id:'pgrd',  n:'P&G República Dominicana',     t:'proy', m:[0,0,5000,5000,5000]},
+ {id:'c41',   n:'Concacaf — 41 Diamonds',       t:'proy', m:[0,0,4750,0,0]},
+ {id:'csur_c',n:'Concacaf — Survey (Creative)', t:'proy', m:[0,0,0,0,3000]},
+ {id:'csur_m',n:'Concacaf — Survey (Media)',    t:'proy', m:[0,0,0,0,1500]}];
+const CLI_LOW=[{id:'fulbo_ar', n:'Fúlbo Argentina — Ecommerce', t:'rec', m:[0,0,3000,3000,3000]}];
+
+const S={rec:{},est:{},cli:{},cus:[],ar:{monto:120000,tasa:23,fx:1500},us:{monto:200000,tasa:4.5},cl:{on:true,costo:350}};
+const FX_BASE=1500;
+REC_BASE.forEach(r=>S.rec[r.id]={on:true,out:0,m:[...r.m]});
+EST_BASE.forEach(r=>S.est[r.id]={on:true,m:[...r.m]});
+CLI_ACT.forEach(c=>S.cli[c.id]=true);
+CLI_MID.forEach(c=>S.cli[c.id]=false);
+CLI_LOW.forEach(c=>S.cli[c.id]=false);
+
+const fmt=n=>{const s=Math.round(Math.abs(n)).toLocaleString('es-AR');return (n<0?'-$':'$')+s;};
+const sum=a=>a.reduce((x,y)=>x+y,0);
+function recActivo(r,i){const s=S.rec[r.id];
+  if(s.on) return true;              // se mantiene todo el período
+  if(!r.ex) return false;            // socias: baja total, sin mes de salida
+  return i<=s.out;}                  // paga hasta el mes de salida inclusive
+function antAnios(r){ if(!r.ant) return 0; return Math.max(r.ant[0]+r.ant[1]/12, 1); }
+function indemDe(r){ if(!r.ant) return 0; return S.rec[r.id].m[0]*antAnios(r)*IND_UP; }
+function nomAct(i){let t=0;
+  REC_BASE.forEach(r=>{ if(r.nom && recActivo(r,i)) t+=r.nom*(r.m[0]?S.rec[r.id].m[0]/r.m[0]:1); });
+  return t;}
+function facCargas(i){return NOM_BASE>0?nomAct(i)/NOM_BASE:0;}
+function costMes(){const o=[0,0,0,0,0];
+  REC_BASE.forEach(r=>{const s=S.rec[r.id]; for(let i=0;i<5;i++) if(recActivo(r,i)) o[i]+=s.m[i];});
+  EST_BASE.forEach(r=>{const s=S.est[r.id]; if(!s.on) return;
+    const car=CARGAS.includes(r.id);
+    for(let i=0;i<5;i++) o[i]+= s.m[i]*(car?facCargas(i):1);});
+  return o;}
+function cargasMes(i){return EST_BASE.filter(x=>CARGAS.includes(x.id)&&S.est[x.id].on).reduce((b,x)=>b+S.est[x.id].m[i],0);}
+function ahorroDe(r,desde){ // ahorro que deja de pagarse desde el mes siguiente a 'desde'
+  const s=S.rec[r.id]; let a=0;
+  for(let i=desde+1;i<5;i++) a+=s.m[i];
+  if(r.nom){ const sh=(r.nom*(r.m[0]?s.m[0]/r.m[0]:1))/NOM_BASE;
+    for(let i=desde+1;i<5;i++) a+=cargasMes(i)*sh; }
+  return a;}
+function indemMes(){const o=[0,0,0,0,0];
+  REC_BASE.forEach(r=>{const s=S.rec[r.id];
+    if(!s.on && r.ex && r.ant) o[s.out]+=indemDe(r);});
+  return o;}
+function indemTot(){return sum(indemMes());}
+function baseCost(){const o=[0,0,0,0,0];
+  REC_BASE.forEach(r=>{for(let i=0;i<5;i++) o[i]+=r.m[i];});
+  EST_BASE.forEach(r=>{for(let i=0;i<5;i++) o[i]+=r.m[i];});
+  return o;}
+function todosClientes(){return [...CLI_ACT,...CLI_MID,...CLI_LOW].map(c=>({...c,on:S.cli[c.id]})).concat(S.cus);}
+function gpMes(){const o=[0,0,0,0,0];todosClientes().forEach(c=>{if(c.on)for(let i=0;i<5;i++)o[i]+=c.m[i];});return o;}
+function recMes(){const o=[0,0,0,0,0];todosClientes().forEach(c=>{if(c.on&&c.t==='rec')for(let i=0;i<5;i++)o[i]+=c.m[i];});return o;}
+function rendAR(){return S.ar.monto*(1+S.ar.tasa/100/12)*(FX_BASE/S.ar.fx)-S.ar.monto;}
+function rendUS(){return S.us.monto*S.us.tasa/100/12;}
+function costoCL(){return S.cl.on?S.cl.costo:0;}
+const US_DESDE=2; // el fondo en Estados Unidos se da de alta en octubre
+function finGanMes(){const a=rendAR(),u=rendUS();return [0,1,2,3,4].map(i=>a+(i>=US_DESDE?u:0));}
+function finCosMes(){const v=-costoCL();return [v,v,v,v,v];}
+function finMes(){const g=finGanMes(),c=finCosMes();return g.map((x,i)=>x+c[i]);}
+function rendMes(){return sum(finMes())/5;}
+</script>
+<script>
+function render(){renderDash();renderRec();renderEst();renderCli();renderFin();renderVal();}
+
+function bars(id,vals,labels,h){
+  const w=1000,pad={l:56,r:20,t:26,b:34};
+  const mx=Math.max(...vals.map(Math.abs),1), iw=w-pad.l-pad.r, ih=h-pad.t-pad.b;
+  const neg=vals.some(v=>v<0), zero=neg?pad.t+ih/2:pad.t+ih, half=neg?ih/2-16:ih-16;
+  const bw=iw/vals.length;
+  let s=`<svg viewBox="0 0 ${w} ${h}" style="width:100%;height:100%" xmlns="http://www.w3.org/2000/svg">`;
+  s+=`<line x1="${pad.l}" y1="${zero}" x2="${w-pad.r}" y2="${zero}" stroke="#3A466A" stroke-width="1.2"/>`;
+  vals.forEach((v,i)=>{
+    const cx=pad.l+i*bw+bw/2, bh=Math.abs(v)/mx*half, bwid=Math.min(76,bw*0.6);
+    const y=v>=0?zero-bh:zero, col=v>=0?'#3FBF74':'#E36A5C';
+    s+=`<rect x="${cx-bwid/2}" y="${y}" width="${bwid}" height="${Math.max(bh,1)}" fill="${col}" rx="3"/>`;
+    s+=`<text x="${cx}" y="${v>=0?y-8:y+bh+18}" font-size="12.5" font-weight="700" fill="#E6EAF3" text-anchor="middle">${fmt(v)}</text>`;
+    s+=`<text x="${cx}" y="${h-9}" font-size="12.5" fill="#93A0BC" text-anchor="middle">${labels[i]}</text>`;
+  });
+  document.getElementById(id).innerHTML=s+'</svg>';
+}
+
+function renderDash(){
+  const gp=gpMes(), cx=costMes(), ind=indemMes(), fin=finMes();
+  const res=gp.map((g,i)=>g-cx[i]-ind[i]);
+  const T=sum(res), GP=sum(gp), CX=sum(cx), IND=sum(ind), FINP=sum(fin);
+  const TT=T+FINP;
+  const est=CX/5, rend=rendMes(), estNeta=est-rend;
+  document.getElementById('k-res').textContent=fmt(T);
+  document.getElementById('k-res').className='vl '+(T>=0?'g':'r');
+  document.getElementById('k-res-sb').textContent=`rentabilidad ${fmt(GP)} · costos ${fmt(CX)}`+(IND>0?` · indemnizaciones ${fmt(IND)}`:'')+` · sin resultado financiero`;
+  document.getElementById('k-fy').textContent=fmt(CERR_NET+TT);
+  document.getElementById('k-est').textContent=fmt(est);
+  const bp=sum(baseCost())/5, dif=bp-est;
+  document.getElementById('k-est-sb').textContent= dif>1?`${fmt(dif)} menos que el base`:(dif<-1?`${fmt(-dif)} más que el base`:'igual al escenario base');
+  const cajaRun=CAJA_NETA-IND;
+  document.getElementById('k-run').textContent=(cajaRun/estNeta).toFixed(1).replace('.',',')+' meses';
+  document.getElementById('k-run-sb').textContent= IND>0?`caja neta ${fmt(CAJA_NETA)} menos ${fmt(IND)} de indemnizaciones`:`caja neta ${fmt(CAJA_NETA)}`;
+  const rec=sum(recMes())/5;
+  document.getElementById('k-eq').textContent=fmt(estNeta-rec);
+  document.getElementById('k-eq-sb').textContent=`falta por mes · recurrente ${fmt(rec)}`;
+  const filas=[['Rentabilidad bruta',gp,'p'],['Costos de estructura',cx.map(v=>-v),'n']];
+  if(IND>0) filas.push(['Indemnizaciones',ind.map(v=>-v),'n']);
+  filas.push(['Resultado operativo',res,'t']);
+  document.getElementById('tb-pl').innerHTML=filas.map(([n,arr,k])=>{
+    const tds=arr.map(v=>`<td class="r ${k==='t'?(v>=0?'pos':'neg'):(k==='n'?'neg':'')}">${fmt(v)}</td>`).join('');
+    const t=sum(arr);
+    return `<tr${k==='t'?' style="font-weight:700;background:var(--panel2)"':''}><td>${n}</td>${tds}<td class="r ${k==='t'?(t>=0?'pos':'neg'):(k==='n'?'neg':'')}" style="font-weight:700">${fmt(t)}</td></tr>`;}).join('');
+  document.getElementById('tb-caja').innerHTML=`
+   <tr><td>Caja disponible hoy</td><td class="r">${fmt(CAJA.disp)}</td></tr>
+   <tr><td>Por cobrar · fee agosto + content capture CD</td><td class="r pos">${fmt(CAJA.cobros)}</td></tr>
+   <tr><td>Pagos pendientes</td><td class="r neg">${fmt(CAJA.pagos)}</td></tr>
+   <tr style="background:var(--panel2);font-weight:700"><td>Posición neta</td><td class="r">${fmt(CAJA_NETA)}</td></tr>
+   <tr><td>Resultado operativo Ago–Dic${IND>0?' <span class="muted">(incluye indemnizaciones)</span>':''}</td><td class="r ${T>=0?'pos':'neg'}">${fmt(T)}</td></tr>
+   <tr><td>Resultado financiero Ago–Dic</td><td class="r ${FINP>=0?'pos':'neg'}">${fmt(FINP)}</td></tr>
+   <tr style="background:var(--panel2);font-weight:700"><td>Caja estimada al 31/12</td><td class="r">${fmt(CAJA_NETA+TT)}</td></tr>`;
+  document.getElementById('tb-anio').innerHTML=`
+   <tr><td>Rentabilidad Ene–Jul (cerrado)</td><td class="r">${fmt(CERR_GP)}</td></tr>
+   <tr><td>Costos Ene–Jul</td><td class="r neg">${fmt(-CERR_EX)}</td></tr>
+   <tr style="background:var(--panel2);font-weight:700"><td>Resultado Ene–Jul</td><td class="r pos">${fmt(CERR_NET)}</td></tr>
+   <tr><td>Resultado operativo Ago–Dic</td><td class="r ${T>=0?'pos':'neg'}">${fmt(T)}</td></tr>
+   <tr><td>Resultado financiero Ago–Dic</td><td class="r ${FINP>=0?'pos':'neg'}">${fmt(FINP)}</td></tr>
+   <tr style="background:var(--panel2);font-weight:700"><td>Resultado 2026</td><td class="r">${fmt(CERR_NET+TT)}</td></tr>`;
+  const fAR=rendAR()*5, fUS=rendUS()*(5-US_DESDE), fCL=-costoCL()*5;
+  document.getElementById('tb-findash').innerHTML=`
+   <tr><td>Intereses Argentina · FCI</td><td class="r ${fAR>=0?'pos':'neg'}">${fmt(fAR)}</td></tr>
+   <tr><td>Intereses Estados Unidos <span class="muted">· desde octubre</span></td><td class="r ${fUS>0?'pos':'muted'}">${fmt(fUS)}</td></tr>
+   <tr><td>Línea de crédito</td><td class="r ${fCL<0?'neg':'muted'}">${fmt(fCL)}</td></tr>
+   <tr style="background:var(--panel2);font-weight:700"><td>Total Ago–Dic</td><td class="r ${FINP>=0?'pos':'neg'}">${fmt(FINP)}</td></tr>
+   <tr><td class="muted">Equivale por mes</td><td class="r muted">${fmt(FINP/5)}</td></tr>`;
+  bars('chart',res,M,250);
+  const nneg=res.filter(v=>v<0).length;
+  document.getElementById('lectura').innerHTML=
+   `<b>Lectura.</b> Con este escenario el período cierra en <b>${fmt(T)}</b> de resultado operativo (<b>${fmt(TT)}</b> sumando el financiero) y ${nneg===0?'ningún mes queda en negativo':(nneg===5?'los cinco meses quedan en negativo':`${nneg} de los 5 meses quedan en negativo`)}. `+
+   `La estructura promedio es de <b>${fmt(est)}</b> por mes, pero los rendimientos financieros aportan <b>${fmt(rend)}</b> mensuales, `+
+   `así que el costo real a cubrir baja a <b>${fmt(estNeta)}</b>. `+
+   `La base recurrente (${fmt(rec)}) cubre el <b>${(rec/estNeta*100).toFixed(0)}%</b> de ese costo y faltan <b>${fmt(estNeta-rec)}</b> por mes para llegar a equilibrio.`+
+   (IND>0?` <b>Los recortes aplicados cuestan ${fmt(IND)} de indemnizaciones</b>, que salen de la caja en el mes de cada baja. El ahorro de estructura es de ${fmt(sum(baseCost())-CX)} en el período, así que el efecto neto sobre la caja es de <b>${fmt(sum(baseCost())-CX-IND)}</b>.`:'');
+}
+
+function renderRec(){
+  const cx=costMes(), ind=indemMes(), IND=sum(ind);
+  const base=baseCost(), tot=[0,0,0,0,0];
+  REC_BASE.forEach(r=>{for(let i=0;i<5;i++) if(recActivo(r,i)) tot[i]+=S.rec[r.id].m[i];});
+  const MESES=['Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  let rows='',grp='';
+  REC_BASE.forEach(r=>{
+    if(r.g!==grp){grp=r.g;rows+=`<tr class="grp"><td colspan="7">${grp}</td></tr>`;}
+    const s=S.rec[r.id], ac=s.on;
+    const antTxt = r.ant ? (r.ant[0]?r.ant[0]+'a ':'')+(r.ant[1]?r.ant[1]+'m':(r.ant[0]?'':'—')) : '—';
+    const piso = r.ant && (r.ant[0]+r.ant[1]/12)<1;
+    const indv = indemDe(r);
+    const sel = r.ex
+      ? `<select data-recout="${r.id}" ${ac?'disabled':''}>`+MESES.map((m,i)=>`<option value="${i}" ${s.out===i?'selected':''}>${m}</option>`).join('')+`</select>`
+      : `<span class="muted">—</span>`;
+    const totR = sum(r.m.map((_,i)=>recActivo(r,i)?s.m[i]:0));
+    rows+=`<tr class="${ac?'':'off'}">
+     <td><label class="sw"><input type="checkbox" data-rec="${r.id}" ${ac?'checked':''}><span class="sl"></span></label></td>
+     <td>${r.n}${r.nota?` <span class="muted" title="${r.nota}">⚠</span>`:''}</td>
+     <td class="r"><input type="number" data-recm="${r.id}" value="${Math.round(s.m[0])}" step="50"></td>
+     <td class="r muted">${antTxt}${piso?'<sup>†</sup>':''}</td>
+     <td class="r ${ac?'muted':'neg'}" id="ind-${r.id}">${r.ant?fmt(indv):'—'}</td>
+     <td>${sel}</td>
+     <td class="r">${totR>0?fmt(totR):'—'}</td></tr>`;});
+  document.getElementById('tb-rec').innerHTML=rows;
+  document.getElementById('rf-mes').textContent=fmt(tot[0]);
+  document.getElementById('rf-tot').textContent=fmt(sum(tot));
+  document.getElementById('rf-ind').textContent=IND>0?fmt(IND):'—';
+
+  const ahorro=sum(base)-sum(cx), bajas=REC_BASE.filter(r=>!S.rec[r.id].on);
+  const carBase=[0,1,2,3,4].reduce((a,i)=>a+EST_BASE.filter(r=>CARGAS.includes(r.id)).reduce((b,r)=>b+r.m[i],0),0);
+  const carAct=[0,1,2,3,4].reduce((a,i)=>a+EST_BASE.filter(r=>CARGAS.includes(r.id)&&S.est[r.id].on).reduce((b,r)=>b+S.est[r.id].m[i]*facCargas(i),0),0);
+  document.getElementById('r-mes').textContent=fmt(tot[0]);
+  document.getElementById('r-mes-sb').textContent=`${REC_BASE.length-bajas.length} de ${REC_BASE.length} se mantienen`+(bajas.length?` · run-rate a noviembre ${fmt(tot[3])}`:'');
+  document.getElementById('r-ah5').textContent=fmt(ahorro);
+  document.getElementById('r-ah5-sb').textContent= carBase-carAct>1?`incluye ${fmt(carBase-carAct)} de cargas sociales`:'sobre el escenario base';
+  document.getElementById('r-ind').textContent=IND>0?fmt(-IND):'$0';
+  document.getElementById('r-ind-sb').textContent= bajas.length?`${bajas.filter(r=>r.ant).length} baja${bajas.filter(r=>r.ant).length===1?'':'s'} con indemnización`:'cargo excepcional, una sola vez';
+  const neto=ahorro-IND;
+  const el=document.getElementById('r-neto');
+  el.textContent=fmt(neto); el.className='vl '+(neto>=0?'g':'r');
+  document.getElementById('r-neto-sb').textContent= IND>0?(neto>=0?'los recortes se pagan solos dentro del año':'los recortes cuestan más de lo que ahorran en 2026'):'ahorro menos indemnizaciones';
+
+  barsInd('chart-rec',cx,ind,base,M,260);
+
+  const corte=REC_BASE.filter(r=>r.ex&&r.ant).map(r=>({n:r.n,nota:r.nota,a:ahorroDe(r,0),i:indemDe(r)}))
+    .map(o=>({...o,net:o.a-o.i})).sort((x,y)=>y.net-x.net);
+  document.getElementById('tb-corte').innerHTML=corte.map(o=>
+    `<tr><td>${o.n}${o.nota?' <span class="muted">⚠</span>':''}</td><td class="r pos">${fmt(o.a)}</td>`+
+    `<td class="r neg">${fmt(-o.i)}</td><td class="r ${o.net>=0?'pos':'neg'}" style="font-weight:700">${fmt(o.net)}</td></tr>`).join('')+
+    `<tr style="background:var(--panel2);font-weight:700"><td>Todos (${corte.length} recursos)</td><td class="r pos">${fmt(sum(corte.map(o=>o.a)))}</td>`+
+    `<td class="r neg">${fmt(-sum(corte.map(o=>o.i)))}</td><td class="r ${sum(corte.map(o=>o.net))>=0?'pos':'neg'}">${fmt(sum(corte.map(o=>o.net)))}</td></tr>`;
+
+  const L=document.getElementById('rec-lectura');
+  if(!bajas.length){ L.innerHTML='<b>Escenario base.</b> Los 17 recursos se mantienen. Probá dar de baja a alguno y elegir su mes de salida para ver el costo de la indemnización contra el ahorro que queda hasta diciembre.'; }
+  else{ const det=bajas.filter(r=>r.ant).map(r=>`${r.n} (${MESES[S.rec[r.id].out]}, ${fmt(indemDe(r))})`).join(' · ');
+    L.innerHTML=`<b>Lectura.</b> Con ${bajas.length} baja${bajas.length===1?'':'s'} el ahorro de estructura hasta diciembre es de <b>${fmt(ahorro)}</b> y las indemnizaciones cuestan <b>${fmt(IND)}</b>. `+
+    `El efecto neto sobre la caja en 2026 es de <b class="${neto>=0?'pos':'neg'}">${fmt(neto)}</b>. `+
+    (neto<0?'El recorte consume caja este año: el ahorro real recién aparece en 2027. ':'')+
+    (det?`<br><span class="muted">${det}</span>`:'');}
+}
+
+function recLive(){
+  const cx=costMes(), ind=indemMes(), IND=sum(ind), base=baseCost(), tot=[0,0,0,0,0];
+  REC_BASE.forEach(r=>{for(let i=0;i<5;i++) if(recActivo(r,i)) tot[i]+=S.rec[r.id].m[i];});
+  REC_BASE.forEach(r=>{const c=document.getElementById('ind-'+r.id); if(c&&r.ant) c.textContent=fmt(indemDe(r));});
+  document.getElementById('rf-mes').textContent=fmt(tot[0]);
+  document.getElementById('rf-tot').textContent=fmt(sum(tot));
+  document.getElementById('rf-ind').textContent=IND>0?fmt(IND):'—';
+  document.getElementById('r-mes').textContent=fmt(tot[0]);
+  const bj=REC_BASE.filter(r=>!S.rec[r.id].on).length;
+  document.getElementById('r-mes-sb').textContent=`${REC_BASE.length-bj} de ${REC_BASE.length} se mantienen`+(bj?` · run-rate a noviembre ${fmt(tot[3])}`:'');
+  const ahorro=sum(base)-sum(cx);
+  document.getElementById('r-ah5').textContent=fmt(ahorro);
+  document.getElementById('r-ind').textContent=IND>0?fmt(-IND):'$0';
+  const neto=ahorro-IND, el=document.getElementById('r-neto');
+  el.textContent=fmt(neto); el.className='vl '+(neto>=0?'g':'r');
+  barsInd('chart-rec',cx,ind,base,M,260);
+}
+
+function barsInd(id,costos,indem,base,labels,h){
+  const w=1000,pad={l:64,r:20,t:30,b:34};
+  const ah=costos.map((c,i)=>Math.max(base[i]-c,0));
+  const tops=costos.map((c,i)=>c+ah[i]+indem[i]);
+  const mx=Math.max(...tops,1), iw=w-pad.l-pad.r, ih=h-pad.t-pad.b, zero=pad.t+ih, usable=ih-34;
+  const bw=iw/costos.length;
+  let s=`<svg viewBox="0 0 ${w} ${h}" style="width:100%;height:100%" xmlns="http://www.w3.org/2000/svg">`;
+  s+=`<line x1="${pad.l}" y1="${zero}" x2="${w-pad.r}" y2="${zero}" stroke="#3A466A" stroke-width="1.2"/>`;
+  costos.forEach((c,i)=>{
+    const cx=pad.l+i*bw+bw/2, bwid=Math.min(78,bw*0.56);
+    const hc=c/mx*usable, ha=ah[i]/mx*usable, hi=indem[i]/mx*usable;
+    s+=`<rect x="${cx-bwid/2}" y="${zero-hc}" width="${bwid}" height="${Math.max(hc,1)}" fill="#4E7BC4" rx="3"/>`;
+    s+=`<text x="${cx}" y="${zero-hc+(hc>34?20:-8)}" font-size="12.5" font-weight="700" fill="${hc>34?'#EAF0FA':'#93A0BC'}" text-anchor="middle">${fmt(c)}</text>`;
+    if(ah[i]>0.5){
+      s+=`<rect x="${cx-bwid/2}" y="${zero-hc-ha}" width="${bwid}" height="${Math.max(ha,2)}" fill="#3FBF74" rx="3" opacity="0.9"/>`;
+      s+=`<text x="${cx+bwid/2+7}" y="${zero-hc-ha/2+4}" font-size="11.5" font-weight="700" fill="#3FBF74" text-anchor="start">+${fmt(ah[i])}</text>`;
+    }
+    if(indem[i]>0){
+      s+=`<rect x="${cx-bwid/2}" y="${zero-hc-ha-hi}" width="${bwid}" height="${Math.max(hi,2)}" fill="#E36A5C" rx="3"/>`;
+      s+=`<text x="${cx}" y="${zero-hc-ha-hi-8}" font-size="12" font-weight="700" fill="#E36A5C" text-anchor="middle">${fmt(indem[i])}</text>`;
+    }
+    s+=`<text x="${cx}" y="${h-9}" font-size="12.5" fill="#93A0BC" text-anchor="middle">${labels[i]}</text>`;
+  });
+  const lg=[['#4E7BC4','Costo mensual'],['#3FBF74','Ahorro por bajas'],['#E36A5C','Indemnizaciones']];
+  let lx=pad.l;
+  lg.forEach(([col,txt])=>{ s+=`<rect x="${lx}" y="8" width="10" height="10" fill="${col}" rx="2"/><text x="${lx+16}" y="17" font-size="11.5" fill="#93A0BC">${txt}</text>`; lx+=txt.length*6.6+34; });
+  document.getElementById(id).innerHTML=s+'</svg>';
+}
+
+function renderEst(){
+  let rows='',grp='';const tot=[0,0,0,0,0];
+  const f=[0,1,2,3,4].map(i=>facCargas(i));
+  const adj=(r,i)=>S.est[r.id].m[i]*(CARGAS.includes(r.id)?f[i]:1);
+  EST_BASE.forEach(r=>{const s=S.est[r.id]; if(s.on) for(let i=0;i<5;i++) tot[i]+=adj(r,i);});
+  EST_BASE.forEach(r=>{
+    if(r.g!==grp){grp=r.g;rows+=`<tr class="grp"><td colspan="4">${grp}</td></tr>`;}
+    const s=S.est[r.id], car=CARGAS.includes(r.id), esc=car&&f[0]<0.999;
+    rows+=`<tr class="${s.on?'':'off'}">
+     <td><label class="sw"><input type="checkbox" data-est="${r.id}" ${s.on?'checked':''}><span class="sl"></span></label></td>
+     <td>${r.n}${esc?` <span class="muted">· ajustado a ${fmt(adj(r,0))} por las bajas</span>`:''}</td>
+     <td class="r"><input type="number" data-estm="${r.id}" value="${Math.round(s.m[0])}" step="25"></td>
+     <td class="r">${s.on?fmt(sum([0,1,2,3,4].map(i=>adj(r,i)))):'—'}</td></tr>`;});
+  document.getElementById('tb-est').innerHTML=rows;
+  document.getElementById('ef-mes').textContent=fmt(tot[0]);
+  document.getElementById('ef-tot').textContent=fmt(sum(tot));
+  const base=[0,0,0,0,0]; EST_BASE.forEach(r=>{for(let i=0;i<5;i++) base[i]+=r.m[i];});
+  document.getElementById('e-mes').textContent=fmt(tot[0]);
+  document.getElementById('e-mes-sb').textContent= f[3]<0.999?`cargas al ${(f[3]*100).toFixed(0)}% desde noviembre por las bajas`:'cargas, beneficios y gastos';
+  document.getElementById('e-ah').textContent=fmt(base[3]-tot[3]);
+  document.getElementById('e-ah-sb').textContent= f[3]<0.999?`run-rate a noviembre · ${fmt(base[3]-tot[3])} menos de cargas por mes`:'vs. escenario base';
+  document.getElementById('e-tot').textContent=fmt(sum(tot));
+}
+</script>
+<script>
+function filaCli(c,extra){
+  const tds=c.m.map(v=>`<td class="r">${v?fmt(v):'<span class="muted">—</span>'}</td>`).join('');
+  const tipo=c.t==='rec'?'<span class="tag a">Recurrente</span>':'<span class="tag c">Proyecto</span>';
+  return `<tr class="${c.on?'':'off'}">
+    <td><label class="sw"><input type="checkbox" data-cli="${c.id}" ${c.on?'checked':''}><span class="sl"></span></label></td>
+    <td>${c.n}</td><td>${tipo}</td>${tds}<td class="r" style="font-weight:700">${fmt(sum(c.m))}</td>${extra||''}</tr>`;
+}
+function renderCli(){
+  document.getElementById('tb-act').innerHTML=CLI_ACT.map(c=>filaCli({...c,on:S.cli[c.id]})).join('');
+  document.getElementById('tb-mid').innerHTML=CLI_MID.map(c=>filaCli({...c,on:S.cli[c.id]})).join('');
+  document.getElementById('tb-low').innerHTML=CLI_LOW.map(c=>filaCli({...c,on:S.cli[c.id]})).join('');
+  document.getElementById('tb-cus').innerHTML= S.cus.length
+    ? S.cus.map((c,i)=>filaCli(c,`<td><button class="btn del" data-del="${i}" title="Eliminar">×</button></td>`)).join('')
+    : `<tr><td colspan="10" style="text-align:center;color:var(--dim);padding:18px">Todavía no agregaste ningún proyecto propio.</td></tr>`;
+  const gp=gpMes(), rec=recMes(), cx=costMes(), rend=rendMes();
+  const estNeta=sum(cx)/5-rend;
+  document.getElementById('c-tot').textContent=fmt(sum(gp));
+  document.getElementById('c-tot-sb').textContent=`${todosClientes().filter(c=>c.on).length} líneas activas`;
+  document.getElementById('c-rec').textContent=fmt(sum(rec)/5);
+  document.getElementById('c-rec-sb').textContent=`${fmt(sum(rec))} en el período`;
+  document.getElementById('c-proy').textContent=fmt(sum(gp)-sum(rec));
+  const cob=estNeta?(sum(rec)/5)/estNeta*100:0;
+  document.getElementById('c-cob').textContent=cob.toFixed(0)+'%';
+  document.getElementById('cli-nota').innerHTML=
+   `<b>Lectura.</b> La base recurrente son <b>${fmt(sum(rec)/5)}</b> por mes contra un costo neto de estructura de <b>${fmt(estNeta)}</b>: cubre el <b>${cob.toFixed(0)}%</b>. `+
+   `Los <b>${fmt(sum(gp)-sum(rec))}</b> de proyectos puntuales no se repiten, así que no sirven para sostener la estructura hacia adelante.`;
+}
+
+function barsFin(id,vals,labels,split,h){
+  const w=1000,pad={l:56,r:20,t:30,b:34};
+  const mx=Math.max(...vals.map(Math.abs),1), iw=w-pad.l-pad.r, ih=h-pad.t-pad.b;
+  const neg=vals.some(v=>v<0), zero=neg?pad.t+ih*0.62:pad.t+ih, half=neg?ih*0.62-18:ih-18;
+  const bw=iw/vals.length;
+  let s=`<svg viewBox="0 0 ${w} ${h}" style="width:100%;height:100%" xmlns="http://www.w3.org/2000/svg">`;
+  const xs=pad.l+split*bw;
+  s+=`<rect x="${xs}" y="${pad.t-6}" width="${w-pad.r-xs}" height="${ih+6}" fill="#4E7BC4" opacity="0.07" rx="4"/>`;
+  s+=`<line x1="${xs}" y1="${pad.t-6}" x2="${xs}" y2="${pad.t+ih}" stroke="#4E7BC4" stroke-width="1" stroke-dasharray="4 4" opacity="0.6"/>`;
+  s+=`<text x="${xs+8}" y="${pad.t+6}" font-size="11.5" font-weight="700" fill="#7FA0D8">Previsión Ago–Dic</text>`;
+  s+=`<line x1="${pad.l}" y1="${zero}" x2="${w-pad.r}" y2="${zero}" stroke="#3A466A" stroke-width="1.2"/>`;
+  vals.forEach((v,i)=>{
+    const cx=pad.l+i*bw+bw/2, bh=Math.abs(v)/mx*half, bwid=Math.min(46,bw*0.58);
+    const y=v>=0?zero-bh:zero, col=v>=0?'#3FBF74':'#E36A5C', fc=i>=split;
+    s+=`<rect x="${cx-bwid/2}" y="${y}" width="${bwid}" height="${Math.max(bh,1)}" fill="${col}" rx="3"${fc?' opacity="0.55" stroke="'+col+'" stroke-width="1.2"':''}/>`;
+    s+=`<text x="${cx}" y="${v>=0?y-7:y+bh+16}" font-size="11" font-weight="700" fill="${fc?'#9FB2CE':'#E6EAF3'}" text-anchor="middle">${fmt(v)}</text>`;
+    s+=`<text x="${cx}" y="${h-9}" font-size="12" fill="${fc?'#7FA0D8':'#93A0BC'}" text-anchor="middle">${labels[i]}</text>`;
+  });
+  document.getElementById(id).innerHTML=s+'</svg>';
+}
+
+function renderFin(){
+  document.getElementById('f-gan').textContent=fmt(FIN_GAN);
+  document.getElementById('f-cos').textContent=fmt(FIN_COS);
+  const arM=rendAR(), usM=rendUS(), cl=costoCL(), tot=arM+usM-cl;
+  document.getElementById('f-pot').textContent=fmt(tot);
+  document.getElementById('f-pot-sb').textContent=`run-rate desde octubre · ${fmt(sum(finMes()))} en los cinco meses`;
+  document.getElementById('f-pot').className='vl '+(tot>=0?'s':'r');
+  document.getElementById('ar-mes').textContent=fmt(arM);
+  document.getElementById('ar-mes').style.color= arM>=0?'var(--green)':'var(--red)';
+  document.getElementById('ar-anio').textContent=`${fmt(arM*12)} al año · 100% del rendimiento actual`;
+  document.getElementById('us-mes').textContent=fmt(usM);
+  document.getElementById('us-anio').textContent=`${fmt(usM*12)} al año · ${fmt(usM*(5-US_DESDE))} en 2026 (alta en octubre)`;
+  document.getElementById('ar-tasa-lb').textContent=S.ar.tasa+'%';
+  document.getElementById('ar-fx-lb').textContent=S.ar.fx.toLocaleString('es-AR');
+  document.getElementById('us-tasa-lb').textContent=S.us.tasa.toFixed(1).replace('.',',')+'%';
+  document.getElementById('cl-anio').textContent=fmt(-cl*12);
+  const dev=(S.ar.fx/FX_BASE-1)*100;
+  document.getElementById('ar-warn').innerHTML= Math.abs(dev)<0.5
+    ? 'Julio rindió $2.327 sobre el FCI. El rendimiento es en pesos: si el dólar se mueve, el resultado en USD cambia.'
+    : (dev>0 ? `Con el dólar a ${S.ar.fx.toLocaleString('es-AR')} (${dev.toFixed(1).replace('.',',')}% de devaluación) el rendimiento en pesos ${arM>=0?'todavía alcanza':'<b>ya no alcanza</b>'} para compensar la pérdida de valor.`
+             : `Con el dólar a ${S.ar.fx.toLocaleString('es-AR')} el rendimiento en USD se amplifica, pero es un escenario poco probable.`);
+  const gan12=[...FIN.gan,...finGanMes()], cos12=[...FIN.cos,...finCosMes()];
+  const neto12=gan12.map((g,i)=>g+cos12[i]);
+  barsFin('fchart',neto12,MF12,7,230);
+  const filas=[['Intereses ganados',gan12,'p'],['Costos financieros',cos12,'n'],['Resultado neto',neto12,'t']];
+  document.getElementById('tb-fin').innerHTML=filas.map(([n,arr,k])=>{
+    const tds=arr.map((v,i)=>`<td class="r ${k==='t'?(v>=0?'pos':'neg'):(k==='n'?'neg':'pos')}"${i>=7?' style="opacity:.78"':''}>${fmt(v)}</td>`).join('');
+    return `<tr${k==='t'?' style="font-weight:700;background:var(--panel2)"':''}><td>${n}</td>${tds}<td class="r ${k==='n'?'neg':'pos'}" style="font-weight:700">${fmt(sum(arr))}</td></tr>`;}).join('');
+  document.getElementById('f-gan-sb').textContent=`Ene–Jul cerrado · previsión Ago–Dic ${fmt(sum(finGanMes()))}`;
+  document.getElementById('f-cos-sb').textContent= cl?`Ene–Jul ${fmt(FIN_COS)} · previsión Ago–Dic ${fmt(sum(finCosMes()))}`:'línea de crédito cancelada desde agosto';
+  document.getElementById('f-anio').textContent=fmt(sum(neto12));
+  document.getElementById('f-anio-sb').textContent=`${fmt(FIN_NET)} cerrado + ${fmt(sum(finMes()))} de previsión`;
+  const est=sum(costMes())/5;
+  document.getElementById('fin-nota').innerHTML=
+   `<b>Por qué importa.</b> Hoy el <b>100% del rendimiento viene de Argentina</b> (FCI Santander): ${fmt(arM)} por mes con el dólar a ${S.ar.fx.toLocaleString('es-AR')}. `+
+   `La caja de Estados Unidos está en Chase al 0%: colocando <b>${fmt(S.us.monto)}</b> al ${S.us.tasa.toFixed(1).replace('.',',')}% se sumarían <b>${fmt(usM)}</b> mensuales, pero recién <b>desde octubre</b> — son ${fmt(usM*(5-US_DESDE))} en lo que queda de 2026. `+
+   (cl?`La línea de crédito cuesta <b>${fmt(cl)}</b> por mes. `:`Sin la línea de crédito activa. `)+
+   `Neto quedan <b>${fmt(tot)}</b> por mes que se restan directo de una estructura de ${fmt(est)} — el <b>${(tot/est*100).toFixed(1).replace('.',',')}%</b> del costo cubierto sin vender nada. `+
+   `Sobre agosto a diciembre son <b>${fmt(sum(finMes()))}</b>, que ya están incorporados al resultado del año en el dashboard.`;
+}
+
+function renderVal(){
+  const gp=gpMes(), rec=recMes(), cx=costMes();
+  const GP=sum(gp), REC=sum(rec), CX=sum(cx);
+  const GPT=CERR_GP+GP, RECT=REC_ENEJUL+REC, CXT=CERR_EX+CX, REST=GPT-CXT;
+  const pRec=GPT?RECT/GPT*100:0, pFwd=GP?REC/GP*100:0;
+  const pCon=GPT?FIFA_2026/GPT*100:0, pMar=GPT?REST/GPT*100:0;
+  document.getElementById('v-gp').textContent=fmt(GPT);
+  document.getElementById('v-res').textContent=fmt(REST);
+  document.getElementById('v-res').className='vl '+(REST>=0?'s':'r');
+  document.getElementById('v-res-sb').textContent=`Ene–Jul ${fmt(CERR_NET)} · Ago–Dic ${fmt(GP-CX)}`;
+  document.getElementById('v-mar').textContent=pMar.toFixed(0)+'%';
+  document.getElementById('v-mar').className='vl '+(pMar>=20?'g':'r');
+  document.getElementById('v-rec').textContent=pRec.toFixed(0)+'%';
+  document.getElementById('v-rec-sb').textContent=`${fmt(RECT)} de ${fmt(GPT)}`;
+  document.getElementById('v-fwd').textContent=pFwd.toFixed(0)+'%';
+  document.getElementById('v-con').textContent=pCon.toFixed(0)+'%';
+  document.getElementById('v-con-sb').textContent='FIFA sobre el total del año';
+  const band=pRec>=60?2:(pRec>=25?1:0);
+  document.querySelectorAll('#bands>div').forEach(d=>d.classList.toggle('on',+d.dataset.b===band));
+  const nb=['2–4x (solo proyectos)','4–6x (mezcla)','6–9x (retainer-heavy)','7–12x (especialista)'];
+  document.getElementById('val-nota').innerHTML=
+   `<b>Dónde queda este escenario.</b> Con <b>${pRec.toFixed(0)}%</b> de revenue recurrente en 2026 el perfil cae en la banda <b>${nb[band]}</b>. `+
+   `Hacia adelante el run-rate mejora a <b>${pFwd.toFixed(0)}%</b>, porque de agosto en adelante desaparecen los proyectos de FIFA y queda la base de fee mensual. `+
+   (pRec<60?`Para llegar a 6–9x el recurrente del año tiene que ser el 60%: hoy faltan <b>${fmt(GPT*0.6-RECT)}</b>.`
+           :`El perfil ya está en la banda alta: el revenue es mayormente contratado y renovable.`);
+  const f=[['Concentración de clientes',pCon.toFixed(0)+'%','Arriba de 25% genera descuento',
+      pCon>25?'Descuento de 1,5x a 2,0x en el múltiplo':'Dentro del rango aceptable',pCon>25],
+    ['Revenue recurrente 2026',pRec.toFixed(0)+'%','60% o más para la banda 6–9x',
+      pRec>=60?'Perfil de retainer, banda alta':'Perfil mixto, techo en 4–6x',pRec<60],
+    ['Margen 2026',pMar.toFixed(0)+'%','Arriba de 20% suma 1x a 2x',
+      pMar>=20?'Señal de eficiencia operativa':'Por debajo del umbral que premian los compradores',pMar<20],
+    ['Dependencia de las socias','100%','Todo el new business nace de ellas',
+      'Descuento de 15% a 30% al momento de vender',true]];
+  document.getElementById('tb-val').innerHTML=f.map(([n,h,u,e,mal])=>
+   `<tr><td><b>${n}</b></td><td class="${mal?'neg':'pos'}">${h}</td><td class="muted">${u}</td><td>${e}</td></tr>`).join('');
+}
+
+document.querySelector('nav').addEventListener('click',e=>{
+  const b=e.target.closest('button[data-p]'); if(!b) return;
+  document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('on',x===b));
+  document.querySelectorAll('.page').forEach(p=>p.classList.toggle('on',p.id===b.dataset.p));
+  window.scrollTo(0,0);});
+document.addEventListener('change',e=>{const t=e.target;
+  if(t.dataset.rec){S.rec[t.dataset.rec].on=t.checked;render();}
+  else if(t.dataset.recout){S.rec[t.dataset.recout].out=+t.value;render();}
+  else if(t.dataset.est){S.est[t.dataset.est].on=t.checked;render();}
+  else if(t.dataset.cli){const id=t.dataset.cli;
+    if(id in S.cli){S.cli[id]=t.checked;}else{const c=S.cus.find(x=>x.id===id);if(c)c.on=t.checked;}
+    render();}
+  else if(t.id==='cl-on'){S.cl.on=t.checked;render();}});
+document.addEventListener('input',e=>{const t=e.target;
+  if(t.dataset.recm){const r=REC_BASE.find(x=>x.id===t.dataset.recm),s=S.rec[t.dataset.recm];
+    const v=parseFloat(t.value)||0,ra=r.m[0]?v/r.m[0]:0;
+    s.m=r.m.map(x=>x*ra);s.m[0]=v;renderDash();renderCli();renderVal();renderEst();recLive();}
+  else if(t.dataset.estm){const r=EST_BASE.find(x=>x.id===t.dataset.estm),s=S.est[t.dataset.estm];
+    const v=parseFloat(t.value)||0,ra=r.m[0]?v/r.m[0]:0;
+    s.m=r.m[0]?r.m.map(x=>x*ra):[v,v,v,v,v];s.m[0]=v;renderDash();renderCli();renderVal();}
+  else if(t.id==='ar-monto'){S.ar.monto=parseFloat(t.value)||0;renderFin();renderDash();renderCli();}
+  else if(t.id==='ar-tasa'){S.ar.tasa=parseFloat(t.value)||0;renderFin();renderDash();renderCli();}
+  else if(t.id==='ar-fx'){S.ar.fx=parseFloat(t.value)||FX_BASE;renderFin();renderDash();renderCli();}
+  else if(t.id==='us-monto'){S.us.monto=parseFloat(t.value)||0;renderFin();renderDash();renderCli();}
+  else if(t.id==='us-tasa'){S.us.tasa=parseFloat(t.value)||0;renderFin();renderDash();renderCli();}
+  else if(t.id==='cl-costo'){S.cl.costo=parseFloat(t.value)||0;renderFin();renderDash();renderCli();}});
+document.addEventListener('click',e=>{const d=e.target.closest('[data-del]');
+  if(d){S.cus.splice(+d.dataset.del,1);render();}});
+document.getElementById('rec-reset').onclick=()=>{REC_BASE.forEach(r=>S.rec[r.id]={on:true,out:0,m:[...r.m]});render();};
+document.getElementById('est-reset').onclick=()=>{EST_BASE.forEach(r=>S.est[r.id]={on:true,m:[...r.m]});render();};
+document.getElementById('add-open').onclick=()=>{document.getElementById('add-form').style.display='block';};
+document.getElementById('np-cancel').onclick=()=>{document.getElementById('add-form').style.display='none';};
+document.getElementById('np-save').onclick=()=>{
+  const n=document.getElementById('np-nom').value.trim();
+  const mo=parseFloat(document.getElementById('np-monto').value)||0;
+  const d=+document.getElementById('np-desde').value,h=+document.getElementById('np-hasta').value;
+  if(!n||!mo){alert('Poné un nombre y un monto mensual.');return;}
+  if(h<d){alert('El mes de fin no puede ser anterior al de inicio.');return;}
+  const m=[0,0,0,0,0];for(let i=d;i<=h;i++)m[i]=mo;
+  S.cus.push({id:'cus'+Date.now(),n:n,t:document.getElementById('np-tipo').value,m:m,on:true});
+  document.getElementById('np-nom').value='';document.getElementById('np-monto').value='';
+  document.getElementById('add-form').style.display='none';render();};
+render();
+</script>
+</body>
+</html>
