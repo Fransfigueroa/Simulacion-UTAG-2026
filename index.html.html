@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="googlebot" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>UTAG · Tablero Financiero 2026</title>
+<style>
+:root{
+ --bg:#0E1526; --bg2:#141D33; --panel:#18223C; --panel2:#1D2846; --line:#2B3757;
+ --text:#E6EAF3; --muted:#93A0BC; --dim:#6C7A99;
+ --gold:#D8B23C; --green:#3FBF74; --red:#E36A5C; --steel:#6C8EE0; --blue:#7EA2F0;
+ --serif:Georgia,'Times New Roman',serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font:15px/1.55 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;padding:0 0 60px}
+.wrap{max-width:1280px;margin:0 auto;padding:0 26px}
+header{background:linear-gradient(180deg,#131C31,#0E1526);border-bottom:1px solid var(--line);padding:26px 0 0;margin-bottom:26px}
+h1{font-family:var(--serif);font-size:30px;font-weight:700;letter-spacing:-.3px}
+.sub{color:var(--muted);font-size:14.5px;margin-top:5px}
+.stamp{float:right;text-align:right;color:var(--dim);font-size:12px;line-height:1.5}
+.stamp b{color:var(--muted);font-weight:600}
+nav{display:flex;gap:4px;margin-top:22px;flex-wrap:wrap}
+nav button{background:none;border:0;border-bottom:2px solid transparent;color:var(--muted);
+ font:600 13.5px/1 inherit;padding:11px 15px;cursor:pointer;letter-spacing:.2px}
+nav button:hover{color:var(--text)}
+nav button.on{color:var(--text);border-bottom-color:var(--gold)}
+.page{display:none} .page.on{display:block}
+h2{font-family:var(--serif);font-size:25px;font-weight:700;margin-bottom:3px}
+.lead{color:var(--muted);font-size:14px;margin-bottom:20px}
+h3{font-size:12px;font-weight:700;color:var(--dim);letter-spacing:1.3px;text-transform:uppercase;margin:24px 0 11px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:13px;margin-bottom:22px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:15px 17px 13px;position:relative;overflow:hidden}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--steel)}
+.kpi.g::before{background:var(--green)} .kpi.r::before{background:var(--red)}
+.kpi.s::before{background:var(--blue)} .kpi.o::before{background:var(--gold)}
+.kpi .lb{font-size:10.5px;color:var(--dim);font-weight:700;letter-spacing:1.1px;text-transform:uppercase}
+.kpi .vl{font-family:var(--serif);font-size:29px;font-weight:700;margin:6px 0 3px;letter-spacing:-.5px}
+.kpi .vl.g{color:var(--green)} .kpi .vl.r{color:var(--red)} .kpi .vl.s{color:var(--blue)} .kpi .vl.o{color:var(--gold)}
+.kpi .sb{font-size:11.5px;color:var(--muted)}
+.kpi .tog{margin-top:9px;font-size:11px;color:var(--blue);cursor:pointer;user-select:none;display:inline-block}
+.kpi .tog:hover{text-decoration:underline}
+.kpi .det{display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
+.kpi .det.on{display:block}
+.kpi .det div{display:flex;justify-content:space-between;font-size:12px;padding:2.5px 0;color:var(--muted)}
+.kpi .det div b{color:var(--text);font-weight:600}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:18px 20px;margin-bottom:18px}
+.ct{font-size:12px;font-weight:700;color:var(--dim);letter-spacing:1.2px;text-transform:uppercase}
+.ch{width:100%;height:270px;margin-top:12px}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead th{background:var(--panel2);color:var(--muted);font-size:10.5px;font-weight:700;letter-spacing:.7px;
+ text-transform:uppercase;padding:10px 13px;text-align:left;white-space:nowrap;border-bottom:1px solid var(--line)}
+tbody td{padding:9px 13px;border-bottom:1px solid #212C49;white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover{background:#1B2540}
+tbody tr.tot{background:var(--panel2);font-weight:700}
+tbody tr.tot:hover{background:var(--panel2)}
+tbody tr.nf td:first-child{color:var(--muted);font-style:italic}
+.r{text-align:right} .pos{color:var(--green)} .neg{color:var(--red)} .mut{color:var(--dim)}
+.ctrl{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:13px}
+select{background:var(--bg2);color:var(--text);border:1px solid var(--line);border-radius:6px;
+ padding:7px 11px;font:13px inherit;cursor:pointer}
+select:focus{outline:0;border-color:var(--steel)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.seg button{background:var(--bg2);border:0;color:var(--muted);font:600 12.5px/1 inherit;padding:8px 15px;cursor:pointer}
+.seg button.on{background:var(--steel);color:#fff}
+.lbl{font-size:11px;color:var(--dim);font-weight:700;letter-spacing:.8px;text-transform:uppercase}
+.note{background:#1A2340;border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:14px 18px;margin-top:16px;font-size:13.5px;color:#CBD5EA}
+.note b{color:var(--text)}
+
+/* ---- tabla clientes ---- */
+thead th.fc{color:#B99B3F}
+#tPre thead th:first-child,#tPre tbody td:first-child{position:sticky;left:0;z-index:2;min-width:230px}
+#tPre thead th:first-child{background:var(--panel2)}
+#tPre tbody td:first-child{background:var(--panel)}
+#tPre tbody tr:hover td:first-child{background:#1B2540}
+#tPre tbody tr.cat{cursor:pointer}
+#tPre tbody tr.cat td{font-weight:600}
+#tPre tbody tr.cat td:first-child::before{content:'▶';color:var(--dim);font-size:9px;margin-right:8px;display:inline-block;transition:transform .15s}
+#tPre tbody tr.cat.op td:first-child::before{transform:rotate(90deg)}
+#tPre tbody tr.it td{color:var(--muted);font-size:12.5px}
+#tPre tbody tr.it td:first-child{padding-left:32px}
+#tPre tbody tr.it td:first-child span{font-size:9px;font-weight:700;letter-spacing:.5px;padding:1px 5px;border-radius:3px;margin-left:7px}
+.pAR{background:#2B3757;color:#9FB4E0} .pUS{background:#2C3A2A;color:#8FC49A}
+#tPre tbody tr.tot td:first-child{background:var(--panel2)}
+.sl{display:flex;align-items:center;gap:11px}
+.sl input[type=range]{width:230px;accent-color:var(--steel)}
+.sl b{font-family:var(--serif);font-size:16px;color:var(--text);min-width:78px}
+.ro{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:11px;margin-top:14px}
+.ro div{background:#141D33;border:1px solid var(--line);border-radius:7px;padding:11px 13px}
+.ro .l{font-size:10px;color:var(--dim);font-weight:700;letter-spacing:.9px;text-transform:uppercase}
+.ro .v{font-family:var(--serif);font-size:19px;font-weight:700;margin-top:4px}
+#tCli thead th:first-child,#tCli tbody td:first-child{position:sticky;left:0;z-index:2;min-width:230px}
+#tCli thead th:first-child{background:var(--panel2)}
+#tCli tbody td:first-child{background:var(--panel)}
+#tCli tbody tr:hover td:first-child{background:#1B2540}
+#tCli tbody tr.tot td:first-child{background:var(--panel2)}
+#tCli tbody tr.fx.on td:first-child{background:#1E2A18}
+#tCli tbody tr.grp td{position:static!important}
+tbody tr.fx td{color:var(--dim)}
+tbody tr.fx.on td{color:var(--text)}
+tbody tr.fx.on{background:#1E2A18}
+tbody tr.fx:hover{background:#1B2540}
+tbody tr.fx.on:hover{background:#243318}
+td.ck{white-space:nowrap}
+td.ck input{accent-color:var(--green);width:14px;height:14px;vertical-align:-2px;margin-right:9px;cursor:pointer}
+.tag{font-size:9px;font-weight:700;letter-spacing:.6px;padding:2px 6px;border-radius:3px;margin-left:8px;vertical-align:1px}
+.tag.mid{background:#3A3216;color:#D8B23C} .tag.low{background:#2A3040;color:#8FA0C4}
+tbody tr.grp td{background:#151E37;color:var(--dim);font-size:10.5px;font-weight:700;letter-spacing:1px;padding:8px 13px}
+tbody tr.grp td b{color:#B99B3F}
+.fxsum{display:flex;gap:22px;flex-wrap:wrap;align-items:center;margin-top:13px;padding:11px 15px;
+ background:#141D33;border:1px solid var(--line);border-radius:8px;font-size:12.5px;color:var(--muted)}
+.fxsum b{color:var(--text);font-family:var(--serif);font-size:15px;margin-left:6px}
+.fxsum .gd{color:var(--gold)}
+.lnk{color:var(--blue);font-size:11.5px;cursor:pointer;margin-left:auto}
+.lnk:hover{text-decoration:underline}
+.icard{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:16px 18px;position:relative}
+.icard::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--steel);border-radius:9px 9px 0 0}
+.icard.best::before{background:var(--gold)}
+.icard h4{font-family:var(--serif);font-size:16px;margin-bottom:8px}
+.icard .big{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--gold)}
+.icard .row2{display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted);padding:3px 0;border-bottom:1px dashed #243053}
+.icard .row2 b{color:var(--text);font-weight:600;text-align:right}
+.icard .blk{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+.icard .blk b{color:var(--text);font-size:10.5px;letter-spacing:.8px;text-transform:uppercase;display:block;margin-bottom:2px}
+.icard ul{margin:4px 0 0 16px;font-size:12px;color:#CBD5EA;line-height:1.5}
+.icard .pro li::marker{color:var(--green)} .icard .con li::marker{color:var(--red)}
+.th2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px}
+.tcard{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:16px 18px}
+.tcard h4{font-family:var(--serif);font-size:17px;margin-bottom:6px}
+.tcard .tg{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--dim);margin-bottom:8px}
+.tcard ul{margin:6px 0 0 16px;font-size:13px;color:#CBD5EA;line-height:1.6}
+.tcard .big2{font-family:var(--serif);font-size:30px;font-weight:700;margin:4px 0}
+.icard{cursor:pointer;transition:border-color .15s}
+.icard:hover{border-color:#3B4A70}
+.icard.best{border-color:var(--gold)}
+.icard .pick{display:flex;align-items:center;justify-content:space-between;margin:-4px -4px 10px;padding:8px 10px;border-radius:7px;background:#141D33;font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.3px}
+.icard.best .pick{background:#3A3216;color:var(--gold)}
+.icard .pick .rd{display:inline-block;width:14px;height:14px;border-radius:50%;border:2px solid currentColor;margin-right:8px;vertical-align:-2px;position:relative}
+.icard.best .pick .rd::after{content:'';position:absolute;inset:2px;border-radius:50%;background:var(--gold)}
+.icard .rec{font-size:9.5px;font-weight:700;letter-spacing:.8px;padding:3px 7px;border-radius:4px;background:#1E2A18;color:var(--green)}
+.icard .ig{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0 12px}
+.icard .ig div{background:#141D33;border-radius:7px;padding:9px 11px}
+.icard .ig span{display:block;font-size:10px;color:var(--dim);font-weight:700;letter-spacing:.8px;text-transform:uppercase}
+.icard .ig b{display:block;font-family:var(--serif);font-size:21px;font-weight:700;color:var(--text);margin-top:3px}
+.icard .ig b.g{color:var(--gold)}
+.icard .ig i{display:block;font-style:normal;font-size:11px;color:var(--muted);margin-top:1px}
+.icard .pc2{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}
+.icard .sim{margin-top:10px;font-size:11.5px;color:var(--muted);background:#141D33;border-radius:6px;padding:8px 10px}
+.mini{font-size:11.5px;color:var(--dim);margin-top:8px}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <div class="stamp"><b>UTAG — DTP LLC</b><br>Actualizado al 24 de septiembre de 2026</div>
+  <h1>Tablero Financiero 2026</h1>
+  <div class="sub">Situación de la empresa y hacia dónde vamos · todos los montos en USD</div>
+  <nav>
+    <button data-p="res" class="on">Resultados</button>
+    <button data-p="cli">Clientes</button>
+    <button data-p="est">Estructura y caja</button>
+    <button data-p="inv">Inversiones</button>
+    <button data-p="pay">Payroll</button>
+    <button data-p="y27">2027</button>
+    <button data-p="reg">Registro</button>
+  </nav>
+</div></header>
+<div class="wrap">
+<section class="page on" id="p-res">
+<h2>Resultados 2026</h2>
+<div class="lead">Enero a agosto con cifras reales cerradas. Septiembre a diciembre con el forecast comercial confirmado y la estructura ya comprometida.</div>
+<div class="kpis">
+<div class="kpi o"><div class="lb">Resultado 2026</div><div class="vl o" id="kR">$476,207</div>
+<div class="sb" id="kRs">real ene–ago más proyección sep–dic</div>
+<span class="tog" data-k="k1">ver apertura ▾</span>
+<div class="det" id="k1">
+<div><span>Real ene–ago</span><b class="pos">$591,563</b></div>
+<div><span>Proyectado sep–dic</span><b class="neg" id="kRp">-$115,356</b></div>
+<div><span>Rendimiento financiero · J.P. Morgan oct–dic</span><b class="pos" id="kRf">—</b></div>
+</div></div>
+<div class="kpi s"><div class="lb">Caja consolidada</div><div class="vl s">$741,755</div>
+<div class="sb">posición a hoy, US + Argentina</div>
+<span class="tog" data-k="k2">ver apertura ▾</span>
+<div class="det" id="k2">
+<div><span>Chase (disponible)</span><b>$650,000</b></div>
+<div><span>Credit line utilizada</span><b class="neg">-$37,270</b></div>
+<div><span>Pagos pendientes</span><b class="neg">-$90,000</b></div>
+<div><span>Cobros pendientes</span><b class="pos">+$119,025</b></div>
+<div><span>Subtotal US</span><b>$641,755</b></div>
+<div><span>Argentina</span><b>$100,000</b></div>
+</div></div>
+<div class="kpi r"><div class="lb">Estructura mensual</div><div class="vl r">$67,970</div>
+<div class="sb">promedio sep–dic, US + Argentina</div>
+<span class="tog" data-k="k3">ver apertura ▾</span>
+<div class="det" id="k3">
+<div><span>Septiembre</span><b>$65,043</b></div>
+<div><span>Octubre</span><b>$65,243</b></div>
+<div><span>Noviembre</span><b>$65,043</b></div>
+<div><span>Diciembre</span><b>$76,553</b></div>
+<div><span>Total sep–dic</span><b>$271,882</b></div>
+</div></div>
+<div class="kpi g"><div class="lb">Runway</div><div class="vl g" id="kW">9.2 meses</div>
+<div class="sb">desde enero 2027, sin ingresos nuevos</div>
+<span class="tog" data-k="k4">ver apertura ▾</span>
+<div class="det" id="k4">
+<div><span>Caja hoy</span><b>$741,755</b></div>
+<div><span>Resultado sep–dic</span><b class="neg" id="kWp">-$115,356</b></div>
+<div><span>Caja estimada al 31/12</span><b id="kWc">$626,399</b></div>
+<div><span>Estructura mensual</span><b>$67,970</b></div>
+<div><span>Cobertura</span><b id="kWf">hasta ~oct 2027</b></div>
+</div></div>
+</div>
+<div class="card">
+<div class="ct">Evolución mensual</div>
+<div class="ctrl" style="margin-top:12px">
+ <span class="seg" id="segV">
+  <button data-v="res" class="on">Resultado</button>
+  <button data-v="gp">Gross profit</button>
+  <button data-v="acc">Acumulado</button>
+ </span>
+</div>
+<svg id="chM" class="ch" viewBox="0 0 1180 270" preserveAspectRatio="none"></svg>
+<div class="mini">La línea punteada marca el corte entre lo real (ene–ago) y lo proyectado (sep–dic). Julio concentra el cierre de Fan Fest.</div>
+</div>
+<div class="note">El detalle mes a mes de cada cliente, y los proyectos del forecast que todavía no están cerrados,
+están en la hoja <b>Clientes</b>. Lo que se active allí se refleja en los indicadores de esta hoja.
+<span class="lnk" data-go="cli" style="margin-left:10px">Ir a Clientes →</span></div>
+</section>
+<section class="page" id="p-cli">
+<h2>Rentabilidad por cliente</h2>
+<div class="lead">Detalle mes a mes de cada cliente. La vista bruta llega hasta diciembre con el forecast confirmado; la neta muestra el resultado real ya descontado el costo de los equipos.</div>
+<div class="card">
+<div class="ctrl" style="margin-top:12px">
+ <span class="seg" id="segB">
+  <button data-b="bruta" class="on">Rentabilidad bruta</button>
+  <button data-b="neta">Rentabilidad neta</button>
+ </span>
+ <span class="lbl">Mes</span><select id="selM"></select>
+ <span class="lbl">Cliente</span><select id="selC"></select>
+</div>
+<div class="tw"><table id="tCli"><thead></thead><tbody></tbody></table></div>
+<div class="fxsum" id="fxSum"></div>
+<div class="mini" id="notaCli"></div>
+</div>
+</section>
+<section class="page" id="p-est">
+<h2>Estructura y caja</h2>
+<div class="lead">De qué está hecho el gasto mensual, cuánta caja hay detrás y hasta cuándo alcanza.</div>
+<div class="kpis">
+<div class="kpi r"><div class="lb">Estructura mensual</div><div class="vl r">$67,970</div>
+<div class="sb">promedio sep–dic 2026</div>
+<span class="tog" data-k="e1">ver apertura ▾</span>
+<div class="det" id="e1">
+<div><span>Argentina</span><b>$18,235</b></div>
+<div><span>Estados Unidos</span><b>$49,736</b></div>
+<div><span>Real ene–ago</span><b>$637,489</b></div>
+<div><span>Presupuesto sep–dic</span><b>$271,883</b></div>
+<div><span>Año 2026</span><b>$909,372</b></div>
+</div></div>
+<div class="kpi s"><div class="lb">Caja consolidada</div><div class="vl s">$741,755</div>
+<div class="sb">posición a hoy, US + Argentina</div>
+<span class="tog" data-k="e2">ver apertura ▾</span>
+<div class="det" id="e2">
+<div><span>Chase (disponible)</span><b>$650,000</b></div>
+<div><span>Credit line utilizada</span><b class="neg">-$37,270</b></div>
+<div><span>Pagos pendientes</span><b class="neg">-$90,000</b></div>
+<div><span>Cobros pendientes</span><b class="pos">+$119,025</b></div>
+<div><span>Subtotal US</span><b>$641,755</b></div>
+<div><span>Argentina</span><b>$100,000</b></div>
+</div></div>
+<div class="kpi o"><div class="lb">Run-out consolidado</div><div class="vl o" id="roC">—</div>
+<div class="sb" id="roCs">sin ingresos nuevos desde enero 2027</div></div>
+<div class="kpi g"><div class="lb">Run-out Argentina</div><div class="vl g" id="roA">—</div>
+<div class="sb">caja local contra gasto local, sin transferencias</div></div>
+</div>
+<div class="card">
+<div class="ct">Run-out de caja</div>
+<div class="ctrl" style="margin-top:14px">
+ <span class="sl"><span class="lbl">Gross profit mensual 2027</span>
+  <input type="range" id="slIng" min="0" max="90000" step="2500" value="0">
+  <b id="slV">$0</b></span>
+ <span class="lnk" id="slEq">Llevar al punto de equilibrio</span>
+ <span class="lbl" style="margin-left:18px">Payroll societario</span>
+ <span class="seg" id="segPay"><button data-p="0" class="on">No</button><button data-p="1">Sí</button></span>
+</div>
+<svg id="chRO" class="ch" viewBox="0 0 1180 290" preserveAspectRatio="none"></svg>
+<div class="ro" id="roBox"></div>
+<div class="note" id="roNote"></div>
+</div>
+<div class="card">
+<div class="ct">Composición de la caja de hoy</div>
+<svg id="chCaja" viewBox="0 0 1180 180" preserveAspectRatio="none" style="width:100%;height:180px;margin-top:12px"></svg>
+</div>
+<div class="card">
+<div class="ct">Composición de la estructura</div>
+<div class="ctrl" style="margin-top:12px">
+ <span class="seg" id="segP">
+  <button data-p="T" class="on">Consolidado</button>
+  <button data-p="AR">Argentina</button>
+  <button data-p="US">Estados Unidos</button>
+ </span>
+</div>
+<div class="mini" id="estNota" style="margin-top:2px"></div>
+<svg id="chEst" class="ch" viewBox="0 0 1180 260" preserveAspectRatio="none"></svg>
+<div class="lg" id="estLeg"></div>
+<div class="tw" style="margin-top:16px"><table id="tPre"><thead></thead><tbody></tbody></table></div>
+<div class="mini" id="estPie"></div>
+</div>
+<div class="note"><b>Criterio de país.</b> Se imputan a Argentina la nómina local (7 personas), las cargas sociales,
+OSDE y Edenred, la Presidencia Arg., los servicios contables y recursos humanos. Todo lo demás —incluidos los equipos
+contratados fuera del país, los salarios de dirección y el costo financiero— queda en Estados Unidos.</div>
+</section>
+<section class="page" id="p-inv">
+<h2>Inversiones: J.P. Morgan</h2>
+<div class="lead">Camino definido: J.P. Morgan (Chase). Money market de gobierno más una escalera de letras del Tesoro, con la liquidez operativa en Chase. El rendimiento ya está incluido en Resultados.</div>
+<div class="kpis" id="invK"></div>
+<div class="card" id="invNext"></div>
+<div class="ctrl"><span class="lbl">Piso operativo en Chase</span>
+ <span style="color:#93A0BC">$</span><input id="inPiso" type="number" value="50000" min="0" max="350000" step="5000" style="width:120px;background:#16203A;color:#E6EAF3;border:1px solid #2A3658;border-radius:6px;padding:6px 8px;font-size:14px">
+ <span class="mini" style="margin:0">Base $50,000: el banco confirmó rescate del money market al día siguiente. Lo que no queda en el piso va al money market.</span></div>
+<div class="card"><div class="ct">La estructura elegida</div>
+<div class="tw" style="margin-top:12px"><table id="tEst"><thead></thead><tbody></tbody></table></div>
+<div class="mini" id="estInvNota"></div></div>
+<div class="card"><div class="ct">Todos los instrumentos relevados</div>
+<div class="tw" style="margin-top:12px"><table id="tFondos"><thead></thead><tbody></tbody></table></div>
+<div class="mini">Los money market "prime" minoristas son solo para personas físicas: DTP LLC no puede usarlos. Solo sirven fondos de gobierno o de Tesoro.</div></div>
+<details class="card" id="invComp"><summary class="ct" style="cursor:pointer">Comparación de caminos · referencia de la decisión ▾</summary>
+<div class="mini" style="margin-top:8px">La escalera de letras rinde lo mismo en cualquier plataforma; lo que cambia es el money market, los costos y el tiempo de alta. Rendimientos de 7 días, variables, a la fecha indicada.</div>
+<svg id="chInv" viewBox="0 0 1180 190" preserveAspectRatio="none" style="width:100%;height:190px;margin-top:10px"></svg>
+<div class="mini" id="invNota"></div>
+<div id="invCards" style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:14px 0"></div>
+<div class="note" id="invConc" style="margin:0;font-size:14px"></div>
+</details>
+<div class="note" id="invFuentes"></div>
+</section>
+<section class="page" id="p-pay">
+<h2>Payroll societario</h2>
+<div class="lead">DTP pasa a S corp desde el 1/1/2026 y las socias cobran por sueldo en Gusto. Confirmado: escenario A, $10,482 en mano por socia. Incluido en el resultado del tablero.</div>
+<div class="card"><div class="ct">Escenarios · por socia y por mes</div>
+<div class="ctrl" style="margin-top:10px"><span class="lbl">Incluir en el resultado del tablero</span>
+ <span class="seg" id="segPay2"><button data-p="0" class="on">No</button><button data-p="1">Sí</button></span>
+ <span class="lnk" id="lnkC">Mostrar escenario de costo neutro</span></div>
+<div id="payCards" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px"></div>
+<div class="mini" style="margin-top:10px">Resultado, run-out y equilibrio incluyen la inversión elegida en la hoja Inversiones.</div></div>
+
+</section>
+<section class="page" id="p-y27"><h2>Escenario 2027</h2><div class="lead">Proyección del año próximo y el cierre de la operación en Argentina.</div><div class="card"><div class="ct">En construcción</div><div class="mini" style="margin-top:10px">Esta hoja se arma en el próximo paso.</div></div></section>
+<section class="page" id="p-reg"><h2>Registro</h2><div class="lead">Qué cambió respecto de la versión anterior y las decisiones tomadas.</div><div class="card"><div class="ct">En construcción</div><div class="mini" style="margin-top:10px">Esta hoja se arma en el próximo paso.</div></div></section>
+<script>const D={"meses":["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"],"gp":[68739,125046,79912,79915,111477,149664,490112,121131,62415,37415,19281,37415],"res":[12380,52990,7023,6480,36241,68493,410167,-2211,-2628,-27828,-45762,-39138],"corte":8,"cx":[65043,65243,65043,76553],"mid":[0,0,0,0,0,0,0,0,1900,19250,14500,19000],"low":[0,0,0,0,0,0,0,0,0,3000,3000,3000],"caja":{"chase":650000,"cl":-37270,"pag":-90000,"cob":119025,"arg":100000},"bruta":[{"n":"FIFA","t":"cli","v":[0.0,51693.36,45925.95,47336.27,59531.63,45909.88,47638.49,55398.59,18134,18134,0,18134]},{"n":"City Dressing","t":"cli","v":[0.0,0.0,0.0,0.0,19784.96,18051.96,45557.92,0.0,0,0,0,0]},{"n":"City Dressing Expansion","t":"cli","v":[0.0,0.0,0.0,0.0,0.0,14035.5,14035.5,0.0,0,0,0,0]},{"n":"Broward","t":"cli","v":[0.0,0.0,0.0,0.0,0.0,0.0,11428.55,0.0,0,0,0,0]},{"n":"Fan Fest","t":"cli","v":[0.0,0.0,0.0,0.0,0.0,1000.0,306197.29,0.0,0,0,0,0]},{"n":"Video Production","t":"cli","v":[0.0,0.0,0.0,0.0,0.0,12250.0,14750.0,0.0,0,0,0,0]},{"n":"Verben","t":"cli","v":[0.0,0.0,0.0,0.0,0.0,17043.0,32640.0,48006.0,0,0,0,0]},{"n":"Masterassist & Axa","t":"cli","v":[25984.46,26647.89,3150.29,0.0,0.0,0.0,0.0,0.0,0,0,0,0]},{"n":"Masterassist & Axa Chile","t":"cli","v":[8869.48,9233.13,-792.4,0.0,0.0,0.0,0.0,0.0,0,0,0,0]},{"n":"Arc Mental","t":"cli","v":[4087.91,4094.3,3798.57,3798.57,3387.26,6121.93,3365.13,4341.45,3798,3798,3798,3798]},{"n":"P&G · Braun","t":"cli","v":[5043.07,5500.0,5759.06,5500.0,5000.0,-1721.27,0.0,0.0,0,0,0,0]},{"n":"P&G · Guillete","t":"cli","v":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,2500.0,2500,2500,2500,2500]},{"n":"Concacaf · Kick Off","t":"cli","v":[3770.0,3773.94,3950.0,3950.0,0.0,0.0,0.0,0.0,0,0,0,0]},{"n":"Concacaf · Tiktok Management","t":"cli","v":[3250.0,2683.1,1619.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0]},{"n":"Concacaf · CDP & Data Strategy","t":"cli","v":[2500.0,2500.0,2500.0,2500.0,2500.0,2500.0,2500.0,2500.0,2500,2500,2500,2500]},{"n":"Concacaf · Concacaf House","t":"cli","v":[0.0,0.0,0.0,0.0,4256.8,3438.91,2965.36,-648.27,0,0,0,0]},{"n":"BSCI","t":"cli","v":[5639.6,9441.37,0.0,2604.0,1792.73,0.0,0.0,0.0,0,0,0,0]},{"n":"Televisa","t":"cli","v":[3600.0,3600.0,3600.0,3800.0,0.0,0.0,0.0,0.0,0,0,0,0]},{"n":"Fulbo","t":"cli","v":[5994.22,5879.12,5917.41,5892.6,6311.87,4000.0,4500.0,4500.0,6000,6000,6000,6000]},{"n":"Masterassist & Axa Colombia","t":"cli","v":[0.0,0.0,4483.91,4533.6,3912.17,4533.6,4533.6,4533.6,4483,4483,4483,4483]},{"n":"Adecco","t":"cli","v":[0.0,0.0,0.0,0.0,5000.0,0.0,0.0,0.0,0,0,0,0]},{"n":"SoccerEx","t":"cli","v":[0.0,0.0,0.0,0.0,0.0,22500.0,0.0,0.0,0,0,0,0]},{"n":"P&G · FEF Sponsorship","t":"cli","v":[0,0,0,0,0,0,0,0,25000,0,0,0]}],"neta":[{"n":"FIFA","t":"cli","v":[-252.74,18916.37,9283.9,4350.38,26753.36,8213.22,5765.6,38463.88]},{"n":"City Dressing","t":"cli","v":[0.0,0.0,0.0,0.0,0.0,439.13,45557.92,0.0]},{"n":"City Dressing Expansion","t":"cli","v":[0.0,0.0,0.0,0.0,0.0,14035.5,14035.5,0.0]},{"n":"Broward","t":"cli","v":[0.0,0.0,0.0,0.0,0.0,0.0,11428.55,0.0]},{"n":"Fan Fest","t":"cli","v":[0.0,0.0,0.0,0.0,0.0,1000.0,291387.44,0.0]},{"n":"Video Production","t":"cli","v":[0.0,0.0,0.0,0.0,0.0,12250.0,14750.0,0.0]},{"n":"Verben","t":"cli","v":[0.0,0.0,0.0,-917.41,-541.69,17043.0,32640.0,47675.49]},{"n":"Masterassist & Axa","t":"cli","v":[11191.74,20068.07,1901.71,0.0,0.0,0.0,0.0,0.0]},{"n":"Masterassist & Axa Chile","t":"cli","v":[-1818.56,4913.34,-1921.81,-123.7,-106.69,0.0,0.0,0.0]},{"n":"Arc Mental","t":"cli","v":[-133.75,759.2,-801.84,70.98,609.42,2707.92,-720.69,102.52]},{"n":"P&G · Braun","t":"cli","v":[1953.0,3992.47,4642.99,4394.44,4193.65,-1721.27,0.0,0.0]},{"n":"P&G · Guillete","t":"cli","v":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,-2131.4]},{"n":"Concacaf · Kick Off","t":"cli","v":[2233.54,2518.27,3307.51,3395.19,0.0,0.0,0.0,0.0]},{"n":"Concacaf · Tiktok Management","t":"cli","v":[-3248.57,-2182.69,-569.71,-1881.85,0.0,0.0,0.0,0.0]},{"n":"Concacaf · CDP & Data Strategy","t":"cli","v":[-785.66,-727.7,-1442.64,-86.86,654.36,-846.9,-179.31,-1300.24]},{"n":"Concacaf · Concacaf House","t":"cli","v":[0.0,0.0,0.0,0.0,2313.03,-993.84,-109.79,-648.27]},{"n":"BSCI","t":"cli","v":[5134.11,8010.34,-3517.1,-60.78,-1.4,0.0,0.0,0.0]},{"n":"Televisa","t":"cli","v":[924.61,1790.68,1995.47,2659.21,-1045.32,0.0,0.0,0.0]},{"n":"Fulbo","t":"cli","v":[3535.73,2292.57,2407.91,3585.42,3827.07,185.29,1784.73,-279.78]},{"n":"Masterassist & Axa Colombia","t":"cli","v":[0.0,-681.86,-1134.98,-1024.91,85.03,-128.96,17.94,-1619.75]},{"n":"Adecco","t":"cli","v":[0.0,0.0,0.0,0.0,5000.0,0.0,0.0,0.0]},{"n":"SoccerEx","t":"cli","v":[0.0,0.0,0.0,-3210.92,-1083.37,22500.0,0.0,0.0]},{"n":"Ecommerce","t":"nf","v":[0.0,0.0,0.0,-148.9,-138.66,0.0,0.0,0.0]},{"n":"New Business","t":"nf","v":[-3101.28,-1563.86,-2093.31,-2670.32,-3006.16,-3234.19,-2957.04,-9364.33]},{"n":"Idle Time","t":"nf","v":[-1883.14,-970.96,-1695.06,-198.59,-188.35,-1031.23,-666.35,-1999.1]},{"n":"Team Organization","t":"nf","v":[-895.67,-1111.38,-264.56,0.0,0.0,-307.69,-377.18,-631.77]},{"n":"Utag","t":"nf","v":[0.0,-3033.08,-3075.98,-1651.33,-1083.37,-1617.09,-2190.4,-10478.73]},{"n":"Capacitaciones","t":"nf","v":[-472.89,0.0,0.0,0.0,0.0,0.0,0.0,0.0]}],"fx":[{"id":"mx_me","n":"Masterassist & Axa México · Media","p":"mid","v":[0,0,0,0,0,0,0,0,0,4500,4500,4500]},{"id":"mx_cr","n":"Masterassist & Axa México · Creative","p":"mid","v":[0,0,0,0,0,0,0,0,0,5000,5000,5000]},{"id":"c41","n":"Concacaf · 41 Diamonds","p":"mid","v":[0,0,0,0,0,0,0,0,0,4750,0,0]},{"id":"csv_c","n":"Concacaf · Survey (Creative)","p":"mid","v":[0,0,0,0,0,0,0,0,0,0,0,3000]},{"id":"csv_m","n":"Concacaf · Survey (Media)","p":"mid","v":[0,0,0,0,0,0,0,0,0,0,0,1500]},{"id":"udog","n":"UnderDog · Deck Translation","p":"mid","v":[0,0,0,0,0,0,0,0,1900,0,0,0]},{"id":"pgrd","n":"P&G República Dominicana · Creative Fee","p":"mid","v":[0,0,0,0,0,0,0,0,0,5000,5000,5000]},{"id":"fular","n":"Fulbo Argentina · Ecommerce","p":"low","v":[0,0,0,0,0,0,0,0,0,3000,3000,3000]}],"est":{"rEA":591563,"rSD":-115356,"r26":476207,"cajaT":741755,"cajaUS":641755,"estProm":67970.5,"estSD":271882,"cajaDic":626399,"runM":9.215748008327141,"gpEA":1225996,"gpSD":156526},"cat":[{"k":"Costo laboral (equipos)","g":"eq","it":[{"n":"Ana Giraudo","v":[1800.0,2100.0,2100.0,2100.0,500.0,5000.0,5000.0,0.0,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Sofia Corsini","v":[1000.0,1000.0,1000.0,1000.0,1000.0,1500.0,3475.0,2750.0,2750.0,2750.0,2750.0,4125.0],"p":"US"},{"n":"De Paoli Maria Laura","v":[1409.15,1655.63,1655.63,1655.63,1960.92,2475.0,2246.55,1815.0,1815.0,1815.0,1815.0,2722.5],"p":"AR"},{"n":"Marcos Garavaglia","v":[1800.0,1800.0,1800.0,1800.0,1800.0,2700.0,1800.0,1800.0,2000.0,2000.0,2000.0,3000.0],"p":"US"},{"n":"Rodrigo Diaz","v":[2000.0,2006.75,2000.0,2000.0,2000.0,2003.38,2000.0,2003.38,2003.38,2003.38,2003.38,2003.38],"p":"US"},{"n":"Carlos Corbeira","v":[0.0,1750.0,1750.0,0.0,0.0,875.0,0.0,0.0,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Fernanda Aceves (JOY IGNITEPR)","v":[0.0,4000.0,5000.0,5000.0,5000.0,5000.0,5000.0,0.0,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Diana Ovejero","v":[0.0,5500.0,5500.0,5500.0,2566.62,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Ramiro Reyes","v":[0.0,625.0,2500.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Saul","v":[0.0,0.0,0.0,0.0,0.0,1500.0,5000.0,3500.0,3500.0,3500.0,3500.0,3500.0],"p":"US"},{"n":"Sueldos Arg. (nómina)","v":[12799.84,14361.95,13088.6,16423.22,15824.6,14578.82,0.0,0.0,0.0,0.0,0.0,0.0],"p":"AR"},{"n":"Sofia Corsini Arg.","v":[0.0,0.0,0.0,0.0,0.0,0.0,1292.33,1750.0,1750.0,1750.0,1750.0,2625.0],"p":"AR"},{"n":"Belen Figueroa","v":[0.0,0.0,0.0,0.0,0.0,0.0,1979.32,1999.11,2398.94,2398.94,2398.94,3598.4],"p":"AR"},{"n":"Alan Contreras","v":[0.0,0.0,0.0,0.0,0.0,0.0,1480.05,1494.85,1494.85,1494.85,1494.85,2242.28],"p":"AR"},{"n":"Melanie Villamayor","v":[0.0,0.0,0.0,0.0,0.0,0.0,568.56,600.0,600.0,600.0,600.0,900.0],"p":"US"},{"n":"Candela Lisun","v":[0.0,0.0,0.0,0.0,0.0,0.0,1658.9,1675.49,1675.49,1675.49,1675.49,2513.23],"p":"AR"},{"n":"Agustina Castia","v":[0.0,0.0,0.0,0.0,0.0,0.0,1105.36,1116.41,1116.41,1116.41,1116.41,1674.62],"p":"AR"},{"n":"Donatella Depasqualli","v":[0.0,0.0,0.0,0.0,0.0,0.0,1205.87,1217.93,1217.93,1217.93,1217.93,1826.89],"p":"AR"},{"n":"Luciana Valarin","v":[0.0,0.0,0.0,0.0,0.0,0.0,2200.0,0.0,0.0,0.0,0.0,0.0],"p":"US"}]},{"k":"Cargas sociales","g":"cb","it":[{"n":"Contribuciones","v":[2318.52,2207.24,2695.42,2780.24,2466.17,2500.0,2616.88,2100.0,2100.0,2100.0,2100.0,3150.0],"p":"AR"},{"n":"CCSS Aguinaldo (Jun)","v":[0.0,0.0,0.0,0.0,0.0,1000.0,0.0,0.0,0.0,0.0,0.0,0.0],"p":"AR"}]},{"k":"Prepaga y Edenred","g":"cb","it":[{"n":"OSDE","v":[809.72,825.28,864.66,861.54,896.08,817.5,976.58,850.0,850.0,850.0,900.0,900.0],"p":"AR"},{"n":"Edenred","v":[495.42,495.42,495.42,495.42,421.48,495.42,443.66,495.42,495.42,495.42,495.42,495.42],"p":"AR"}]},{"k":"Salarios dirección","g":"dir","it":[{"n":"Sofia Cano","v":[8500.0,8500.0,8500.0,8500.0,10500.0,10500.0,10500.0,10500.0,10500.0,10500.0,10500.0,10500.0],"p":"US"},{"n":"Carolina Mano","v":[8500.0,8500.0,8500.0,8500.0,10500.0,10500.0,10500.0,10500.0,10500.0,10500.0,10500.0,10500.0],"p":"US"},{"n":"Mary Redondo","v":[8500.0,8500.0,8500.0,8500.0,10500.0,10500.0,10500.0,10500.0,10500.0,10500.0,10500.0,10500.0],"p":"US"},{"n":"Franco Figueroa","v":[2000.0,2000.0,2300.0,2300.0,2300.0,3450.0,2300.0,2300.0,3000.0,3000.0,3000.0,4500.0],"p":"US"},{"n":"Federico Mano","v":[900.0,900.0,900.0,899.65,900.0,900.0,900.0,900.0,900.0,900.0,900.0,900.0],"p":"US"},{"n":"Presidencia Arg.","v":[375.0,375.0,375.0,375.0,369.0,375.0,388.56,375.0,375.0,375.0,375.0,375.0],"p":"AR"}]},{"k":"Servicios contables","g":"sv","it":[{"n":"Servicios Contables","v":[1483.54,2758.73,1019.27,912.23,2393.78,1200.0,1205.64,1200.0,1200.0,1200.0,1200.0,1200.0],"p":"AR"}]},{"k":"Marketing y gestión","g":"sv","it":[{"n":"Marketing y Gestión de Clientes","v":[680.91,1033.17,1112.84,1235.91,1119.8,1250.0,589.29,700.0,700.0,700.0,700.0,700.0],"p":"US"}]},{"k":"Viajes","g":"sv","it":[{"n":"Viajes","v":[0.0,141.14,0.0,967.59,269.35,200.0,0.0,0.0,500.0,750.0,500.0,1000.0],"p":"US"}]},{"k":"Recursos humanos","g":"sv","it":[{"n":"Recursos Humanos","v":[8.45,54.93,0.0,0.0,31.69,50.0,1435.0,0.0,50.0,0.0,0.0,50.0],"p":"AR"}]},{"k":"Licencias y capacitación","g":"sv","it":[{"n":"Licencias y Capacitación","v":[880.23,960.98,1147.38,1603.57,1892.0,1750.0,1552.8,1000.0,1000.0,1000.0,1000.0,1000.0],"p":"US"}]},{"k":"Costo financiero","g":"sv","it":[{"n":"Costo Financiero","v":[97.22,4.78,84.78,25.0,25.0,51.0,25.0,51.0,51.0,51.0,51.0,51.0],"p":"US"}]},{"k":"Servicios legales","g":"sv","it":[]},{"k":"Equipamiento y mobiliario","g":"sv","it":[]}],"rr":{"arBase":16522.37,"arAgu":6850.97,"usBase":48587.71,"usDic":4591.67,"arSD":72940.46,"usSD":198942.52,"ar":[19699.64,22734.18,20194.0,23503.28,24363.72,23491.74,18034.7,16089.21,16539.04,16489.04,16539.04,23373.34],"us":[36658.36,49321.82,52695.0,49931.72,50872.77,57679.38,61910.65,47104.38,48504.38,48754.38,48504.38,53179.38],"cajaAR":100000,"cajaUS":641755,"cajaT":741755,"cajaDic":626399},"mix":[{"k":"Costo laboral (equipos)","g":"eq","it":[{"n":"Fernanda Aceves (JOY IGNITEPR)","v":[0.0,4000.0,5000.0,5000.0,5000.0,5000.0,5000.0,0.0,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Saul Ramos","v":[0.0,0.0,0.0,0.0,2334.0,3500.0,5000.0,3500.0,3500.0,3500.0,3500.0,3500.0],"p":"US"},{"n":"Sofia Corsini","v":[1000.0,1000.0,1000.0,1000.0,1000.0,2500.0,4750.0,1750.0,2750.0,2750.0,2750.0,4125.0],"p":"US"},{"n":"Belen Figueroa","v":[1487.24,1477.39,1645.57,1637.21,1722.4,2508.74,1979.32,1979.32,2398.94,2398.94,2398.94,3598.4],"p":"AR"},{"n":"Marcos Garavaglia","v":[1800.0,1800.0,1800.0,1800.0,1800.0,2700.0,1800.0,1800.0,2000.0,2000.0,2000.0,3000.0],"p":"US"},{"n":"Rodrigo Diaz","v":[2000.0,2006.75,2000.0,2000.0,2000.0,2000.0,2000.0,2020.99,2003.38,2003.38,2003.38,2003.38],"p":"US"},{"n":"De Paoli Maria Laura","v":[1409.15,1655.63,1655.63,1655.63,1960.92,3439.68,2246.55,1821.2,1815.0,1815.0,1815.0,2722.5],"p":"AR"},{"n":"Sofia Corsini Arg.","v":[1522.21,1473.11,1640.85,1632.49,1717.68,2501.67,1633.33,1633.33,1750.0,1750.0,1750.0,2625.0],"p":"AR"},{"n":"Candela Lisun","v":[1369.39,1360.32,1516.44,1658.06,1593.62,2390.39,1658.9,1658.9,1675.49,1675.49,1675.49,2513.23],"p":"AR"},{"n":"Diana Ovejero","v":[0.0,5500.0,5500.0,5500.0,2566.62,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Ana Giraudo","v":[1800.0,2100.0,2100.0,2100.0,500.0,5000.0,5000.0,0.0,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Alan Contreras","v":[1025.97,1060.17,1149.0,1140.64,1225.83,2271.74,1480.05,1480.05,1494.85,1494.85,1494.85,2242.28],"p":"AR"},{"n":"Donatella Depasqualli","v":[985.92,985.92,1104.94,1096.58,1181.77,1697.8,1205.87,1285.4,1217.93,1217.93,1217.93,1826.89],"p":"AR"},{"n":"Agustina Castia","v":[902.85,902.85,1073.16,1005.21,1097.03,1590.54,1105.36,1105.36,1116.41,1116.41,1116.41,1674.62],"p":"AR"},{"n":"Luciana Valarin","v":[0.0,0.0,2000.0,2000.0,2800.0,2800.0,2200.0,0.0,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Sofia Picon","v":[1313.24,1313.24,1465.0,1456.64,5514.65,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"p":"AR"},{"n":"Melanie Villamayor","v":[0.0,0.0,456.0,609.31,598.59,572.39,568.56,553.74,600.0,600.0,600.0,900.0],"p":"US"},{"n":"Carlos Corbeira","v":[0.0,1750.0,1750.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Ramiro Reyes","v":[0.0,625.0,2500.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Bruno del Gallo","v":[0.0,0.0,903.0,1050.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Esther Piccolino","v":[0.0,0.0,0.0,1345.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"p":"US"}]},{"k":"Cargas sociales","g":"cb","it":[{"n":"Contribuciones","v":[2633.7,2528.17,2695.42,2780.24,2466.17,3298.65,2616.88,2641.43,2100.0,2100.0,2100.0,3150.0],"p":"AR"}]},{"k":"Prepaga y Edenred","g":"cb","it":[{"n":"OSDE","v":[809.72,825.28,864.66,861.54,896.08,943.12,976.58,933.49,850.0,850.0,900.0,900.0],"p":"AR"},{"n":"Edenred","v":[495.42,495.42,495.42,495.42,421.48,465.85,443.66,443.66,495.42,495.42,495.42,495.42],"p":"AR"}]},{"k":"Salarios dirección","g":"dir","it":[{"n":"Sofia Cano","v":[8500.0,8500.0,8500.0,8500.0,10500.0,10500.0,10500.0,30500.0,10500.0,10500.0,10500.0,10500.0],"p":"US"},{"n":"Carolina Mano","v":[8500.0,8500.0,8500.0,8500.0,10500.0,10500.0,10500.0,30500.0,10500.0,10500.0,10500.0,10500.0],"p":"US"},{"n":"Mary Redondo","v":[8500.0,8500.0,8500.0,8500.0,10500.0,10500.0,10500.0,30500.0,10500.0,10500.0,10500.0,10500.0],"p":"US"},{"n":"Franco Figueroa","v":[2000.0,2000.0,2300.0,2300.0,2300.0,3450.0,2300.0,2300.0,3000.0,3000.0,3000.0,4500.0],"p":"US"},{"n":"Federico Mano","v":[900.0,900.0,900.0,899.65,900.0,900.0,900.0,900.0,900.0,900.0,900.0,900.0],"p":"US"},{"n":"Presidencia Arg.","v":[374.5,366.83,361.72,361.72,369.39,386.01,388.56,392.4,375.0,375.0,375.0,375.0],"p":"AR"}]},{"k":"Servicios contables","g":"sv","it":[{"n":"RPA","v":[564.79,823.94,753.52,746.48,1588.03,669.01,669.01,711.27,0.0,0.0,0.0,0.0],"p":"AR"},{"n":"Servicios Contables","v":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1200.0,1200.0,1200.0,1200.0],"p":"AR"},{"n":"All Financials Services LLC","v":[833.97,1662.0,0.0,0.0,715.0,0.0,0.0,125.0,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Colppy","v":[84.79,84.79,90.75,90.75,90.75,102.68,102.68,102.68,0.0,0.0,0.0,0.0],"p":"AR"},{"n":"QuickBook","v":[0.0,188.0,175.0,75.0,75.0,75.0,85.0,0.0,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Consejo de Contadores","v":[0.0,0.0,0.0,0.0,0.0,0.0,348.94,0.0,0.0,0.0,0.0,0.0],"p":"AR"}]},{"k":"Marketing y gestión","g":"sv","it":[{"n":"Marketing y Gestión de Clientes","v":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,700.0,700.0,700.0,700.0],"p":"US"},{"n":"ATT","v":[268.92,239.04,308.47,308.47,248.96,253.13,253.13,0.0,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Parking","v":[411.99,54.88,3.75,137.6,43.46,0.0,59.01,0.0,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Uber","v":[0.0,0.0,0.0,0.0,0.0,308.66,133.18,0.0,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Grazianos","v":[0.0,274.28,0.0,100.93,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Hard Rock Cafe Hollywood","v":[0.0,0.0,0.0,0.0,326.37,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Just Park","v":[0.0,0.0,0.0,0.0,0.0,292.18,0.0,0.0,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Il Gabino","v":[0.0,0.0,0.0,227.34,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Walgreens","v":[0.0,0.0,0.0,0.0,0.0,214.31,0.0,0.0,0.0,0.0,0.0,0.0],"p":"US"},{"n":"The Home Depot","v":[0.0,0.0,0.0,0.0,154.26,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Casa Tua Cucina","v":[0.0,0.0,0.0,150.56,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Speaker Hub","v":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,149.99,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Talavera","v":[0.0,0.0,0.0,0.0,144.28,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Miami Garden","v":[0.0,0.0,0.0,0.0,0.0,139.09,0.0,0.0,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Cafe Demetrio","v":[0.0,128.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Otros (30 conceptos)","v":[0.0,336.97,800.62,311.01,202.47,182.73,143.96,68.8,0.0,0.0,0.0,0.0],"p":"US"}]},{"k":"Viajes","g":"sv","it":[{"n":"Viajes","v":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,500.0,750.0,500.0,1000.0],"p":"US"},{"n":"Uber","v":[0.0,91.87,0.0,408.15,168.78,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Omni Hotels Atlanta","v":[0.0,0.0,0.0,559.44,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Shell","v":[0.0,49.27,0.0,0.0,100.57,172.69,0.0,0.0,0.0,0.0,0.0,0.0],"p":"US"}]},{"k":"Recursos humanos","g":"sv","it":[{"n":"Mercado Libre","v":[0.0,0.0,0.0,0.0,0.0,0.0,45.07,72.68,0.0,0.0,0.0,0.0],"p":"AR"},{"n":"Recursos Humanos","v":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,50.0,0.0,0.0,50.0],"p":"AR"},{"n":"Alejandro Tarche","v":[8.45,54.93,0.0,0.0,31.69,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"p":"AR"}]},{"k":"Licencias y capacitación","g":"sv","it":[{"n":"Licencias y Capacitación","v":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1000.0,1000.0,1000.0,1000.0],"p":"US"},{"n":"Google GSuite","v":[465.98,364.73,337.44,365.1,390.12,408.99,421.2,422.61,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Claude","v":[0.0,0.0,0.0,310.09,345.88,250.0,350.0,350.0,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Asana","v":[0.0,0.0,202.35,202.35,202.35,202.35,202.35,202.35,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Adobe","v":[141.6,141.6,141.6,141.6,141.6,141.6,141.6,141.6,0.0,0.0,0.0,0.0],"p":"AR"},{"n":"Hiscox","v":[134.66,134.66,134.66,134.66,134.66,155.1,138.41,0.0,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Amazon Web Services","v":[0.0,133.7,121.84,263.48,133.91,39.99,129.75,133.73,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Statista INC","v":[59.0,59.0,59.0,59.0,59.0,59.0,59.0,0.0,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Envato","v":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,361.29,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Supermetrics","v":[47.0,47.0,47.0,47.0,47.0,47.0,47.0,0.0,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Istock","v":[0.0,0.0,0.0,0.0,229.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Chat GPT","v":[20.0,20.0,60.0,20.0,20.0,20.0,20.0,0.0,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Gamma","v":[0.0,25.0,25.0,25.0,25.0,25.0,25.0,25.0,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Coder House (Curso Belu)","v":[0.0,0.0,0.0,0.0,118.52,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"p":"AR"},{"n":"Dropbox","v":[11.99,11.99,11.99,11.99,11.99,11.99,11.99,11.99,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Otros (2 conceptos)","v":[0.0,23.3,6.5,23.3,33.38,6.5,6.5,6.5,0.0,0.0,0.0,0.0],"p":"US"}]},{"k":"Costo financiero","g":"sv","it":[{"n":"Lucas Mastronunzio","v":[97.22,0.0,80.0,0.0,0.0,0.0,0.0,80.0,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Chase","v":[0.0,0.0,0.0,25.0,25.0,131.78,25.0,25.0,0.0,0.0,0.0,0.0],"p":"US"},{"n":"CHASE","v":[0.0,4.78,4.78,4.78,197.69,6.74,0.0,0.0,0.0,0.0,0.0,0.0],"p":"US"},{"n":"Costo Financiero","v":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,51.0,51.0,51.0,51.0],"p":"US"}]},{"k":"Servicios legales","g":"sv","it":[{"n":"Uscis","v":[0.0,0.0,0.0,0.0,0.0,3795.0,0.0,0.0,0.0,0.0,0.0,0.0],"p":"US"},{"n":"CSA Attorneys","v":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,1205.0,0.0,0.0,0.0,0.0],"p":"US"}]},{"k":"Equipamiento y mobiliario","g":"sv","it":[{"n":"Hueya LLC","v":[0.0,0.0,0.0,0.0,0.0,0.0,1389.93,0.0,0.0,0.0,0.0,0.0],"p":"US"}]}],"mixT":{"real":637489.14,"presu":271882.98,"tot":909372.12},"dist":[0,0,0,0,0,0,0,-60000],"inv":{"fecha":"23/09/2026","letras":{"fecha":"23/09/2026","4s":3.88,"3m":4.14,"6m":4.34,"12m":4.44},"estructura":{"piso":[150000,80000],"mm":[200000,270000],"l3":145000,"l6":145000},"caminos":[{"id":"jpm","n":"Camino 1 · J.P. Morgan (Chase)","mm":{"t":"MJGXX","n":"JPMorgan U.S. Government MMF · clase Morgan","y":3.39,"f":"23/09","min":"$1,000","g":"—"},"letras":"Solo mercado secundario en la plataforma self-directed · $0","mov":"Transferencia interna desde la cuenta Chase: inmediata y sin costo","alta":"Con un banker licenciado de JPMC (Hagai). Cliente existente: estimado 1–2 semanas","estado":"Rendimiento estimado con la clase Morgan; fondo, clase y costos de la cuenta de empresa a confirmar con Hagai","pro":["Todo queda en el mismo ecosistema: la liquidez pasa de la inversión a la cuenta al día siguiente","Sin wires ni cuentas nuevas en otro banco","Relación bancaria con Hagai: suma para la línea de crédito"],"con":["El money market accesible es el de menor rendimiento de los tres","En self-directed las letras se compran solo en secundario, no en licitación","Condiciones de la cuenta de empresa todavía sin confirmar"],"s":{"ap":"1–2 semanas","apn":"cliente existente · estimado","let":"$0 · secundario","mov":"Interno · día siguiente","fp":["Todo queda en Chase","Rescate al día siguiente, sin wires"],"fc":["Menor rendimiento","Letras solo en secundario"],"est":"A confirmar con Hagai"}},{"id":"fid","n":"Camino 2 · Fidelity","mm":{"t":"FZCXX","n":"Fidelity Government MMF · Premium Class","y":3.53,"f":"22/09","min":"$100,000","g":"—"},"letras":"Licitación y secundario online · $0 (con operador: $19.95)","mov":"Wire desde Chase; entrante a Fidelity sin costo","alta":"Formulario en papel firmado por las tres socias y enviado por correo a Cincinnati; 1–3 días hábiles de proceso desde que llega. Estimado 1.5–2 semanas","estado":"LLC confirmada por Fidelity (Justin). Rendimientos y comisiones publicados","pro":["Todo confirmado: la LLC califica y los costos están publicados","Letras en licitación sin comisión","Money market de gobierno con buen rendimiento desde $100,000"],"con":["Alta en papel, con firma en tinta de las tres","La plata sale de Chase: cada movimiento es un wire","Otra plataforma para operar y conciliar"],"similar":"Schwab es la alternativa equivalente: SNOXX 3.54% (22/09), sin mínimo, gasto 0.34%. Ojo: su fondo más conocido, SWVXX, es solo para personas físicas y una LLC no puede usarlo","s":{"ap":"1.5–2 semanas","apn":"papel · firmas de las 3 · correo","let":"$0 · licitación","mov":"Wire desde Chase","fp":["Todo confirmado","Letras en licitación"],"fc":["Alta en papel","Otra plataforma"],"est":"Confirmado","sim":"Similar: Schwab · SNOXX 3.54%"}},{"id":"van","n":"Camino 3 · Vanguard","mm":{"t":"VUSXX","n":"Vanguard Treasury MMF","y":3.76,"f":"22/09","min":"$3,000","g":"0.07%"},"letras":"Licitación y secundario online · $0 (a confirmar en el tarifario)","mov":"Wire desde Chase","alta":"Cuenta para organizaciones con formularios en papel. Estimado 2–3 semanas (a confirmar)","estado":"Rendimiento publicado. Proceso y tiempos de la cuenta de empresa a confirmar","pro":["El money market de mayor rendimiento: gasto anual de 0.07%","Fondo 100% Tesoro","Mínimo bajo"],"con":["Probablemente el alta más lenta","Servicio y operatoria menos ágiles que Fidelity","La plata sale de Chase: cada movimiento es un wire"],"s":{"ap":"2–3 semanas","apn":"papel · estimado","let":"$0 · licitación","mov":"Wire desde Chase","fp":["Mayor rendimiento","Fondo 100% Tesoro"],"fc":["Alta más lenta","Otra plataforma"],"est":"A confirmar"}}],"fondos":[["J.P. Morgan","MJGXX","U.S. Government MMF · Morgan",3.39,"23/09","$1,000","✓ apto LLC"],["J.P. Morgan","OGSXX","U.S. Government MMF · Premier",3.55,"23/09","$1 millón","mínimo fuera de alcance"],["Fidelity","SPAXX","Government MMF (por defecto)",3.43,"22/09","$0","✓ apto LLC"],["Fidelity","FZFXX","Treasury MMF",3.47,"22/09","$0","✓ apto LLC"],["Fidelity","FZCXX","Government MMF · Premium",3.53,"22/09","$100,000","✓ apto LLC"],["Fidelity","SPRXX","Money Market (prime)",3.48,"22/09","$0","✗ solo personas físicas"],["Vanguard","VMFXX","Federal MMF",3.73,"22/09","$3,000","✓ apto LLC"],["Vanguard","VUSXX","Treasury MMF",3.76,"22/09","$3,000","✓ apto LLC"],["Schwab","SNOXX","Treasury Obligations MF",3.54,"22/09","$0","✓ apto LLC"],["Schwab","SNVXX","Government MF",3.52,"22/09","$0","✓ apto LLC"],["Schwab","SWVXX","Prime Advantage MF",3.65,"22/09","$0","✗ solo personas físicas"]],"fuentes":["Letras: U.S. Department of the Treasury, Daily Treasury Bill Rates (coupon equivalent), 23/09/2026","J.P. Morgan: am.jpmorgan.com, fichas de cada clase del U.S. Government Money Market Fund (7-day SEC yield), 23/09/2026; tarifario J.P. Morgan Self-Directed Investing (chase.com)","Fidelity: fundresearch.fidelity.com, Daily Pricing & Yields, 22/09/2026; fidelity.com/commissions","Vanguard: investor.vanguard.com, fichas VMFXX y VUSXX (7-day SEC yield), 22/09/2026","Schwab: schwabassetmanagement.com, Money Fund Yields, 22/09/2026"]}};</script>
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const mo=x=>{x=Math.round(x);return (x<0?"-":"")+"$"+Math.abs(x).toLocaleString("en-US");};
+const mk=x=>{const a=Math.abs(x); if(a<1000) return Math.round(x)+""; return (x/1000).toFixed(a>=100000?0:1).replace(".0","")+"k";};
+const cls=x=>x>0?"pos":(x<0?"neg":"mut");
+const MESL=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+
+$$("nav button").forEach(b=>b.onclick=()=>{
+  $$("nav button").forEach(x=>x.classList.remove("on")); b.classList.add("on");
+  $$(".page").forEach(p=>p.classList.remove("on")); $("#p-"+b.dataset.p).classList.add("on");
+  if(b.dataset.p==="res") drawM();
+});
+$$("[data-go]").forEach(el=>el.onclick=()=>{
+  const b=document.querySelector('nav button[data-p="'+el.dataset.go+'"]'); b.click();
+  window.scrollTo({top:0,behavior:"smooth"});
+});
+$$(".kpi .tog").forEach(t=>t.onclick=()=>{
+  const d=$("#"+t.dataset.k), on=d.classList.toggle("on");
+  t.textContent=on?"ocultar apertura ▴":"ver apertura ▾";
+});
+
+/* ============ escenario: proyectos del forecast activados ============ */
+const ACT=new Set();
+const ex=i=>D.fx.reduce((a,f)=>a+(ACT.has(f.id)?f.v[i]:0),0);
+const exT=()=>D.fx.reduce((a,f)=>a+(ACT.has(f.id)?f.v.reduce((x,y)=>x+y,0):0),0);
+const gpA=()=>D.gp.map((v,i)=>v+ex(i));
+const resA=()=>{const f=runout(0).fin; return D.res.map((v,i)=>v+ex(i)+(i>=8?f[i-8]-payS(i-8):0));};
+
+function refresh(){
+  const e=exT(), R0=runout(0), f26=R0.fin.slice(0,4).reduce((a,b)=>a+b,0);
+  const pSD=paySD(); const rSD=D.est.rSD+e-pSD, r26=D.est.r26+e+f26-pSD, cajaDic=R0.con[4];
+  $("#kR").textContent=mo(r26);
+  $("#kRp").textContent=mo(rSD); $("#kRp").className=cls(rSD);
+  $("#kRf").textContent=mo(f26);
+  $("#kRs").textContent = e ? `incluye ${ACT.size} proyecto${ACT.size>1?"s":""} del forecast (+${mo(e)}) y la inversión en J.P. Morgan`
+                            : "real ene–ago, proyección sep–dic e inversión en J.P. Morgan";
+  if(PAY) $("#kRs").textContent+=" · con payroll societario";
+  let run=12, fl="después de dic 2027";
+  for(let k=5;k<=16;k++){ if(R0.con[k]<0){ run=(k-5)+R0.con[k-1]/(R0.con[k-1]-R0.con[k]); fl=R0.lab[k]; break; } }
+  $("#kW").textContent=(run>=12?"> 12":run.toFixed(1))+" meses";
+  $("#kWp").textContent=mo(rSD+f26); $("#kWp").className=cls(rSD+f26);
+  $("#kWc").textContent=mo(cajaDic);
+  $("#kWf").textContent="hasta ~"+fl.replace(" 27"," 2027");
+  drawM(); if(window.drawRO) drawRO(); if(window.drawInv) drawInv(); if(window.drawPay) drawPay();
+}
+
+/* ================= grafico mensual ================= */
+let VIEW="res";
+$$("#segV button").forEach(b=>b.onclick=()=>{
+  $$("#segV button").forEach(x=>x.classList.remove("on")); b.classList.add("on");
+  VIEW=b.dataset.v; drawM();
+});
+function drawM(){
+  const W=1180,H=270,L=78,R=18,T=18,Bm=32;
+  let vals;
+  if(VIEW==="gp") vals=gpA();
+  else if(VIEW==="acc"){let s=0; vals=resA().map(v=>s+=v);}
+  else vals=resA();
+  const mx=Math.max(...vals,0), mn=Math.min(...vals,0), pad=(mx-mn)*0.1||1;
+  const hi=mx+pad, lo=mn-pad, y=v=>T+(hi-v)/(hi-lo)*(H-T-Bm);
+  const bw=(W-L-R)/12, bar=bw*0.5;
+  let s='';
+  for(let i=0;i<=5;i++){
+    const v=lo+(hi-lo)*i/5, yy=y(v);
+    s+=`<line x1="${L}" y1="${yy.toFixed(1)}" x2="${W-R}" y2="${yy.toFixed(1)}" stroke="#232F4E"/>`;
+    s+=`<text x="${L-9}" y="${(yy+4).toFixed(1)}" text-anchor="end" fill="#6C7A99" font-size="10.5">${mo(v)}</text>`;
+  }
+  const y0=y(0);
+  s+=`<line x1="${L}" y1="${y0.toFixed(1)}" x2="${W-R}" y2="${y0.toFixed(1)}" stroke="#4A5A82" stroke-width="1.4"/>`;
+  const xc=L+D.corte*bw;
+  s+=`<line x1="${xc.toFixed(1)}" y1="${T}" x2="${xc.toFixed(1)}" y2="${H-Bm}" stroke="#D8B23C" stroke-width="1.2" stroke-dasharray="5,4" opacity=".7"/>`;
+  s+=`<text x="${(xc+7).toFixed(1)}" y="${T+11}" fill="#D8B23C" font-size="10" font-weight="700" letter-spacing=".6">PREVISTO</text>`;
+  s+=`<text x="${(xc-7).toFixed(1)}" y="${T+11}" fill="#93A0BC" font-size="10" font-weight="700" letter-spacing=".6" text-anchor="end">REAL</text>`;
+  if(VIEW==="acc"){
+    const pts=vals.map((v,i)=>[L+bw*(i+.5),y(v)]);
+    s+=`<path d="M${pts.map(p=>p[0].toFixed(1)+","+p[1].toFixed(1)).join("L")}" fill="none" stroke="#D8B23C" stroke-width="2.4"/>`;
+    pts.forEach((p,i)=>s+=`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3.6" fill="${i<D.corte?'#D8B23C':'#0E1526'}" stroke="#D8B23C" stroke-width="1.8"/>`);
+    s+=`<text x="${(L+bw*11.5).toFixed(1)}" y="${(y(vals[11])-12).toFixed(1)}" text-anchor="end" fill="#D8B23C" font-size="11.5" font-weight="700">${mo(vals[11])}</text>`;
+  } else {
+    vals.forEach((v,i)=>{
+      const x=L+bw*i+(bw-bar)/2, yy=Math.min(y(v),y0), h=Math.max(Math.abs(y(v)-y0),1), real=i<D.corte;
+      const col= VIEW==="gp" ? "#6C8EE0" : (v>=0?"#3FBF74":"#E36A5C");
+      s+=`<rect x="${x.toFixed(1)}" y="${yy.toFixed(1)}" width="${bar.toFixed(1)}" height="${h.toFixed(1)}" rx="2.5" fill="${col}" opacity="${real?.92:.32}" ${real?"":`stroke="${col}" stroke-width="1.2" stroke-dasharray="3,2.5"`}/>`;
+      s+=`<text x="${(L+bw*i+bw/2).toFixed(1)}" y="${(v>=0?y(v)-6:y(v)+13).toFixed(1)}" text-anchor="middle" fill="${v>=0?'#AFC0E0':'#E8A79E'}" font-size="9.5" font-weight="600">${mk(v)}</text>`;
+    });
+  }
+  D.meses.forEach((mm,i)=>s+=`<text x="${(L+bw*i+bw/2).toFixed(1)}" y="${H-11}" text-anchor="middle" fill="${i<D.corte?'#93A0BC':'#6C7A99'}" font-size="11" font-weight="600">${mm}</text>`);
+  $("#chM").innerHTML=s;
+}
+
+/* ================= tabla por cliente ================= */
+let MODE="bruta";
+const MB=D.meses, MN=D.meses.slice(0,8);
+const rows=()=>MODE==="bruta"?D.bruta:D.neta;
+const mses=()=>MODE==="bruta"?MB:MN;
+$$("#segB button").forEach(b=>b.onclick=()=>{
+  $$("#segB button").forEach(x=>x.classList.remove("on")); b.classList.add("on");
+  MODE=b.dataset.b; fillSel(true); drawT();
+});
+function fillSel(reset){
+  const sm=$("#selM"), sc=$("#selC"), pc=sc.value;
+  sm.innerHTML='<option value="all">Todo el año</option>'+mses().map((x,i)=>`<option value="${i}">${x}</option>`).join("");
+  if(reset) sm.value="all";
+  const nm=rows().filter(r=>r.t==="cli").map(r=>r.n).sort((a,b)=>a.localeCompare(b));
+  sc.innerHTML='<option value="all">Todos</option>'+nm.map(n=>`<option value="${n}">${n}</option>`).join("");
+  if(!reset && [...sc.options].some(o=>o.value===pc)) sc.value=pc;
+}
+$("#selM").onchange=drawT; $("#selC").onchange=drawT;
+
+function drawT(){
+  const MM=mses(), mi=$("#selM").value, ci=$("#selC").value, all=rows();
+  const uno=(mi!=="all"), bru=(MODE==="bruta");
+  const val=r=> uno ? r.v[+mi] : r.v.reduce((a,b)=>a+b,0);
+
+  let th='<tr><th>Cliente</th>';
+  if(!uno) MM.forEach((x,i)=>th+=`<th class="r${bru&&i>=8?' fc':''}">${x}</th>`);
+  th+=`<th class="r">${uno?MM[+mi]:"Total"}</th><th class="r">Part.</th></tr>`;
+  $("#tCli thead").innerHTML=th;
+  const nc=(uno?1:MM.length)+2;
+
+  let cli=all.filter(r=>r.t==="cli"), nf=all.filter(r=>r.t==="nf");
+  const base=Math.abs(cli.reduce((a,r)=>a+val(r),0))||1;
+  if(ci!=="all") cli=cli.filter(r=>r.n===ci);
+  cli=cli.slice().sort((a,b)=>val(b)-val(a));
+  const totC=cli.reduce((a,r)=>a+val(r),0), totN=nf.reduce((a,r)=>a+val(r),0);
+
+  const line=(r,k)=>{
+    const t=val(r);
+    let h=`<tr class="${k||''}"><td>${r.n}</td>`;
+    if(!uno) r.v.forEach(v=>h+=`<td class="r ${cls(v)}">${v?mo(v):'—'}</td>`);
+    h+=`<td class="r ${cls(t)}"><b>${t?mo(t):'—'}</b></td><td class="r mut">${(t/base*100).toFixed(1)}%</td></tr>`;
+    return h;
+  };
+  let tb=cli.map(r=>line(r)).join("");
+  if(cli.length>1){
+    tb+='<tr class="tot"><td>Total clientes</td>';
+    if(!uno) MM.forEach((x,i)=>{const v=cli.reduce((a,r)=>a+r.v[i],0); tb+=`<td class="r ${cls(v)}">${mo(v)}</td>`;});
+    tb+=`<td class="r ${cls(totC)}">${mo(totC)}</td><td class="r mut">${(totC/base*100).toFixed(1)}%</td></tr>`;
+  }
+  if(nf.length && ci==="all"){
+    tb+=`<tr class="grp"><td colspan="${nc}">HORAS NO FACTURABLES</td></tr>`;
+    tb+=nf.slice().sort((a,b)=>val(b)-val(a)).map(r=>line(r,"nf")).join("");
+    tb+='<tr class="tot"><td>Resultado operativo</td>';
+    if(!uno) MM.forEach((x,i)=>{const v=all.reduce((a,r)=>a+r.v[i],0); tb+=`<td class="r ${cls(v)}">${mo(v)}</td>`;});
+    tb+=`<td class="r ${cls(totC+totN)}">${mo(totC+totN)}</td><td class="r mut">—</td></tr>`;
+    if(!bru && D.dist){
+      const dv=uno?D.dist[+mi]:D.dist.reduce((a,b)=>a+b,0);
+      tb+=`<tr class="nf"><td>Distribución a socias</td>`;
+      if(!uno) MM.forEach((x,i)=>tb+=`<td class="r ${cls(D.dist[i])}">${D.dist[i]?mo(D.dist[i]):'—'}</td>`);
+      tb+=`<td class="r ${cls(dv)}"><b>${dv?mo(dv):'—'}</b></td><td class="r mut">—</td></tr>`;
+      tb+='<tr class="tot"><td>Resultado final</td>';
+      if(!uno) MM.forEach((x,i)=>{const v=all.reduce((a,r)=>a+r.v[i],0)+D.dist[i]; tb+=`<td class="r ${cls(v)}">${mo(v)}</td>`;});
+      tb+=`<td class="r ${cls(totC+totN+dv)}">${mo(totC+totN+dv)}</td><td class="r mut">—</td></tr>`;
+    }
+  }
+  /* --- forecast no activo --- */
+  if(bru && ci==="all"){
+    tb+=`<tr class="grp"><td colspan="${nc}">PROYECTOS DEL FORECAST — NO ACTIVOS &nbsp;·&nbsp; <b>tildar para sumarlos al escenario</b></td></tr>`;
+    D.fx.forEach(f=>{
+      const on=ACT.has(f.id), t=uno?f.v[+mi]:f.v.reduce((a,b)=>a+b,0);
+      let h=`<tr class="fx${on?" on":""}" data-id="${f.id}"><td class="ck"><input type="checkbox" ${on?"checked":""}>${f.n}<span class="tag ${f.p}">${f.p==="mid"?"MEDIA":"BAJA"}</span></td>`;
+      if(!uno) f.v.forEach(v=>h+=`<td class="r ${on?cls(v):''}">${v?mo(v):'—'}</td>`);
+      h+=`<td class="r"><b>${t?mo(t):'—'}</b></td><td class="r mut">${on?"activo":"—"}</td></tr>`;
+      tb+=h;
+    });
+    const eSel=uno?ex(+mi):exT();
+    tb+='<tr class="tot"><td>Gross profit con escenario</td>';
+    if(!uno) MM.forEach((x,i)=>{const v=all.reduce((a,r)=>a+r.v[i],0)+ex(i); tb+=`<td class="r ${cls(v)}">${mo(v)}</td>`;});
+    tb+=`<td class="r ${cls(totC+totN+eSel)}">${mo(totC+totN+eSel)}</td><td class="r mut">—</td></tr>`;
+  }
+  $("#tCli tbody").innerHTML=tb;
+  $$("#tCli tbody tr.fx").forEach(tr=>tr.onclick=e=>{
+    const id=tr.dataset.id; ACT.has(id)?ACT.delete(id):ACT.add(id);
+    drawT(); refresh();
+  });
+  fxBar();
+  $("#notaCli").textContent = bru
+    ? "Rentabilidad bruta: facturación menos costos directos del trabajo. Ene–ago real ($1,225,996, igual al gross profit del período); sep–dic según el forecast comercial confirmado ($156,526)."
+    : "Rentabilidad neta: la bruta menos el costo laboral y de estructura imputado a cada cliente según las horas cargadas. Enero a agosto. La distribución de $60,000 a las socias de agosto va en una línea aparte, debajo del resultado operativo, para no cargarla a ningún cliente; el resultado final ($591,562) coincide con el Financial. Sin previsión sep–dic porque el forecast no tiene asignación de horas por equipo.";
+}
+function fxBar(){
+  const b=$("#fxSum");
+  if(MODE!=="bruta"){b.style.display="none";return;} b.style.display="flex";
+  const e=exT(), mid=D.fx.filter(f=>f.p==="mid").reduce((a,f)=>a+f.v.reduce((x,y)=>x+y,0),0);
+  const low=D.fx.filter(f=>f.p==="low").reduce((a,f)=>a+f.v.reduce((x,y)=>x+y,0),0);
+  b.innerHTML=`<span>Escenario base<b>${mo(D.est.r26)}</b></span>`
+   +`<span class="gd">Proyectos activados<b class="gd">${ACT.size} · ${mo(e)}</b></span>`
+   +`<span>Resultado 2026<b class="${cls(D.est.r26+e)}">${mo(D.est.r26+e)}</b></span>`
+   +`<span style="font-size:11.5px;color:#6C7A99">Disponible: probabilidad media ${mo(mid)} · baja ${mo(low)}</span>`
+   +`<span class="lnk" id="fxAll">${ACT.size?"Volver al base":"Activar todos"}</span>`;
+  $("#fxAll").onclick=()=>{ if(ACT.size) ACT.clear(); else D.fx.forEach(f=>ACT.add(f.id)); drawT(); refresh(); };
+}
+
+/* ================= HOJA ESTRUCTURA Y CAJA ================= */
+const M27=D.meses, RR=D.rr;
+const gAR=m=>RR.arBase+((m===5||m===11)?RR.arAgu:0);
+const gUS=m=>RR.usBase+((m===11)?RR.usDic:0);
+const GAS27=(()=>{let t=0;for(let m=0;m<12;m++)t+=gAR(m)+gUS(m);return t;})();
+
+let CAM="jpm", PISOV=50000, PAY=false;
+const INVT=()=>D.inv.estructura.piso[0]+D.inv.estructura.mm[0]; /* piso + money market = $350,000 */
+const MMV=()=>Math.max(INVT()-PISOV,0);
+let PSC="A";
+const PSCN={A:{n:"A · Neto por sueldo",s:"Confirmado en la reunión del 24/9: $10,482 en mano",g:12000,d:0},
+ M:{n:"Intermedio",s:"Bruto entre el base y el retiro actual",g:11250,d:0},
+ B:{n:"B · Bruto = retiro actual",s:"Sueldo bruto de $10,500",g:10500,d:0},
+ C:{n:"C · Costo neutro para DTP",s:"DTP gasta lo mismo que hoy",g:10500/1.0765,d:0,opt:true}};
+let SHOWC=false;
+function pcalc(k){const s=PSCN[k], g=s.g, fed=g*0.05, fe=g*0.0765, net=g-fed-fe, d=(s.d===null?10500-net:s.d), cost=g+fe+d; return {g,fed,fe,net,d,mano:net+d,cost,incr:cost-10500};}
+const payS=i=>PAY?3*pcalc(PSC).incr+(i===0?693:0):0;
+const pay27=m=>PAY?3*pcalc(PSC).incr+(m===0?693:0):0;
+const paySD=()=>[0,1,2,3].reduce((a,i)=>a+payS(i),0);
+const pay27T=()=>[...Array(12)].reduce((a,_,m)=>a+pay27(m),0);
+function tasas(){const I=D.inv, c=I.caminos.find(x=>x.id===CAM); return {mm:c.mm.y/100, l3:I.letras["3m"]/100, l6:I.letras["6m"]/100, piso:PISOV};}
+function interes(chase,t,per){ /* per 0=sep26, 1=oct26 ... 4=ene27 */
+  if(per<1) return 0;
+  const E=D.inv.estructura, inv=Math.max(chase-t.piso,0); let lad=0, rl=0;
+  if(per<=3){lad=Math.min(E.l3+E.l6,inv); rl=(t.l3+t.l6)/2;}
+  else if(per<=6){lad=Math.min(E.l6,inv); rl=t.l6;}
+  return (lad*rl+(inv-lad)*t.mm)/12;
+}
+function runout(ing){
+  const t=tasas(); const lab=["Hoy"],con=[RR.cajaT],arg=[RR.cajaAR],fin=[];
+  let c=RR.cajaT,a=RR.cajaAR;
+  for(let i=0;i<4;i++){const f=interes(c-Math.max(a,0),t,i); fin.push(f); c+=D.res[8+i]+ex(8+i)+f-payS(i); a-=RR.ar[8+i]; lab.push(D.meses[8+i]+" 26"); con.push(c); arg.push(a);}
+  for(let m=0;m<12;m++){const f=interes(c-Math.max(a,0),t,4+m); fin.push(f); c+=ing-(gAR(m)+gUS(m))+f-pay27(m); a-=gAR(m); lab.push(M27[m]+" 27"); con.push(c); arg.push(a);}
+  return {lab,con,arg,fin};
+}
+function equilibrio(){let lo=0,hi=150000; for(let k=0;k<40;k++){const md=(lo+hi)/2; if(runout(md).con[16]<0) lo=md; else hi=md;} return hi;}
+const cruce=(v,lab)=>{for(let i=1;i<v.length;i++) if(v[i]<0) return lab[i]; return null;};
+function fechaFin(lab){return lab?lab.replace(" 26"," 2026").replace(" 27"," 2027"):"después de dic 2027";}
+
+function drawRO(){
+  const ing=+$("#slIng").value;
+  $("#slV").textContent=mo(ing);
+  const R=runout(ing);
+  const W=1180,H=290,L=88,Rg=110,T=22,Bm=34;
+  const todos=R.con.concat(R.arg);
+  const hi=Math.max(...todos,0)*1.08, lo=Math.min(...todos,0)*1.25-10000;
+  const y=v=>T+(hi-v)/(hi-lo)*(H-T-Bm), x=i=>L+i*(W-L-Rg)/(R.lab.length-1);
+  let s='';
+  for(let i=0;i<=5;i++){const v=lo+(hi-lo)*i/5,yy=y(v);
+    s+=`<line x1="${L}" y1="${yy.toFixed(1)}" x2="${W-Rg}" y2="${yy.toFixed(1)}" stroke="#232F4E"/>`;
+    s+=`<text x="${L-9}" y="${(yy+4).toFixed(1)}" text-anchor="end" fill="#6C7A99" font-size="10.5">${mo(v)}</text>`;}
+  const y0=y(0);
+  s+=`<rect x="${L}" y="${y0.toFixed(1)}" width="${W-Rg-L}" height="${(H-Bm-y0).toFixed(1)}" fill="#E36A5C" opacity=".07"/>`;
+  s+=`<line x1="${L}" y1="${y0.toFixed(1)}" x2="${W-Rg}" y2="${y0.toFixed(1)}" stroke="#E36A5C" stroke-width="1.3"/>`;
+  const x26=x(4);
+  s+=`<line x1="${x26.toFixed(1)}" y1="${T}" x2="${x26.toFixed(1)}" y2="${H-Bm}" stroke="#3B4A70" stroke-width="1" stroke-dasharray="4,4"/>`;
+  s+=`<text x="${(x26+6).toFixed(1)}" y="${T+11}" fill="#6C7A99" font-size="10" font-weight="700" letter-spacing=".6">2027</text>`;
+  const linea=(v,col,nm)=>{
+    let d="M"+v.map((q,i)=>x(i).toFixed(1)+","+y(q).toFixed(1)).join("L");
+    let o=`<path d="${d}" fill="none" stroke="${col}" stroke-width="2.3"/>`;
+    v.forEach((q,i)=>{if(i%1===0) o+=`<circle cx="${x(i).toFixed(1)}" cy="${y(q).toFixed(1)}" r="2.7" fill="${col}"/>`;});
+    const last=v[v.length-1];
+    o+=`<text x="${(W-Rg+9)}" y="${(y(last)+4).toFixed(1)}" fill="${col}" font-size="11.5" font-weight="700">${nm}</text>`;
+    o+=`<text x="${(W-Rg+9)}" y="${(y(last)+18).toFixed(1)}" fill="${col}" font-size="10.5" opacity=".8">${mo(last)}</text>`;
+    return o;
+  };
+  s+=linea(R.arg,"#6C8EE0","Argentina");
+  s+=linea(R.con,"#D8B23C","Consolidado");
+  [["con","#D8B23C"],["arg","#6C8EE0"]].forEach(([k,col])=>{
+    const v=R[k]; for(let i=1;i<v.length;i++) if(v[i]<0){
+      s+=`<circle cx="${x(i).toFixed(1)}" cy="${y(v[i]).toFixed(1)}" r="5" fill="none" stroke="${col}" stroke-width="2"/>`;
+      s+=`<text x="${x(i).toFixed(1)}" y="${(y(v[i])+20).toFixed(1)}" text-anchor="middle" fill="${col}" font-size="10" font-weight="700">${R.lab[i]}</text>`;
+      break;}
+  });
+  R.lab.forEach((l,i)=>{ if(i%2===0||i===R.lab.length-1)
+    s+=`<text x="${x(i).toFixed(1)}" y="${H-11}" text-anchor="middle" fill="#6C7A99" font-size="10">${l}</text>`;});
+  $("#chRO").innerHTML=s;
+
+  const fC=cruce(R.con,R.lab), fA=cruce(R.arg,R.lab);
+  $("#roC").textContent=fC?fechaFin(fC):"> dic 2027";
+  $("#roA").textContent=fA?fechaFin(fA):"> dic 2027";
+  $("#roCs").textContent= ing? `con ${mo(ing)} de gross profit por mes en 2027` : "sin ingresos nuevos desde enero 2027";
+  const eq=equilibrio();
+  $("#roBox").innerHTML=
+    `<div><div class="l">Caja al 31/12/2026</div><div class="v ${cls(R.con[4])}">${mo(R.con[4])}</div></div>`
+   +`<div><div class="l">Gasto total 2027</div><div class="v">${mo(GAS27+pay27T())}</div></div>`
+   +`<div><div class="l">Gross profit 2027 en el escenario</div><div class="v ${ing?'pos':'mut'}">${mo(ing*12)}</div></div>`
+   +`<div><div class="l">Caja al 31/12/2027</div><div class="v ${cls(R.con[16])}">${mo(R.con[16])}</div></div>`;
+  $("#roNote").innerHTML=`<b>Punto de equilibrio 2027:</b> hacen falta <b>${mo(eq)} de gross profit por mes</b> `
+   +`(${mo(eq*12)} en el año) para terminar 2027 con la caja en cero. Argentina, con su caja local de `
+   +`${mo(RR.cajaAR)} y un gasto de ${mo(RR.arBase)} por mes, se queda sin fondos en <b>${fechaFin(fA)}</b> `
+   +`si no recibe transferencias desde Estados Unidos: se queda corta frente a la fecha límite de cierre de marzo de 2027, `
+   +`así que los últimos meses hay que fondearlos desde Estados Unidos. `
+   +`El gasto de 2027 toma el nivel de septiembre a noviembre como base y agrega el aguinaldo de junio y diciembre; `
+   +`no contempla indemnizaciones.`;
+}
+$("#slIng").oninput=drawRO;
+function setPay(v){PAY=v; $$("#segPay button, #segPay2 button").forEach(x=>x.classList.toggle("on",(x.dataset.p==="1")===v)); refresh();}
+$$("#segPay button, #segPay2 button").forEach(b=>b.onclick=()=>setPay(b.dataset.p==="1"));
+$("#slEq").onclick=()=>{
+  const eq=equilibrio();
+  $("#slIng").value=Math.ceil(Math.max(eq,0)/2500)*2500; drawRO();
+};
+
+/* ---- caja: waterfall ---- */
+function drawCaja(){
+  const it=[["Chase disponible",D.caja.chase,"#3FBF74"],["Cobros pendientes",D.caja.cob,"#3FBF74"],
+            ["Credit line utilizada",D.caja.cl,"#E36A5C"],["Pagos pendientes",D.caja.pag,"#E36A5C"],
+            ["Argentina",D.caja.arg,"#6C8EE0"]];
+  const W=1180,H=180,L=14,T=20,Bm=30,bw=(W-L*2)/6;
+  let acc=0; const pts=it.map(([n,v,c])=>{const a=acc; acc+=v; return [n,v,c,a,acc];});
+  const mx=Math.max(acc,...pts.map(p=>Math.max(p[3],p[4])))*1.12;
+  const y=v=>T+(mx-v)/mx*(H-T-Bm);
+  let s='';
+  pts.forEach(([n,v,c,a,b],i)=>{
+    const x=L+bw*i+bw*0.16, w=bw*0.68;
+    const y1=y(Math.max(a,b)), h=Math.max(Math.abs(y(a)-y(b)),2);
+    s+=`<rect x="${x.toFixed(1)}" y="${y1.toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}" rx="2.5" fill="${c}" opacity=".85"/>`;
+    s+=`<text x="${(x+w/2).toFixed(1)}" y="${(y1-7).toFixed(1)}" text-anchor="middle" fill="${c}" font-size="12" font-weight="700">${v>0?"+":""}${mo(v)}</text>`;
+    s+=`<text x="${(x+w/2).toFixed(1)}" y="${H-11}" text-anchor="middle" fill="#93A0BC" font-size="11">${n}</text>`;
+    if(i<pts.length-1) s+=`<line x1="${(x+w).toFixed(1)}" y1="${y(b).toFixed(1)}" x2="${(L+bw*(i+1)+bw*0.16).toFixed(1)}" y2="${y(b).toFixed(1)}" stroke="#3B4A70" stroke-dasharray="3,3"/>`;
+  });
+  const x=L+bw*5+bw*0.16, w=bw*0.68;
+  s+=`<rect x="${x.toFixed(1)}" y="${y(acc).toFixed(1)}" width="${w.toFixed(1)}" height="${(H-Bm-y(acc)).toFixed(1)}" rx="2.5" fill="#D8B23C" opacity=".9"/>`;
+  s+=`<text x="${(x+w/2).toFixed(1)}" y="${(y(acc)-7).toFixed(1)}" text-anchor="middle" fill="#D8B23C" font-size="13.5" font-weight="700">${mo(acc)}</text>`;
+  s+=`<text x="${(x+w/2).toFixed(1)}" y="${H-11}" text-anchor="middle" fill="#E6EAF3" font-size="11" font-weight="700">Total</text>`;
+  $("#chCaja").innerHTML=s;
+}
+
+/* ---- composicion de la estructura ---- */
+let PAIS="T", OPC=new Set();
+const GR=[["eq","Equipos","#6C8EE0"],["cb","Cargas y beneficios","#7EA2F0"],
+          ["dir","Dirección","#D8B23C"],["sv","Servicios y otros","#6C7A99"]];
+$$("#segP button").forEach(b=>b.onclick=()=>{
+  $$("#segP button").forEach(x=>x.classList.remove("on")); b.classList.add("on");
+  PAIS=b.dataset.p; drawEst(); drawPre();
+});
+const fp=x=>PAIS==="T"||x.p===PAIS;
+const items=k=>{const c=D.mix.find(c=>c.k===k); return c?c.it.filter(fp):[];};
+const serieCat=k=>[...Array(12)].map((_,i)=>items(k).reduce((a,x)=>a+x.v[i],0));
+const serie=g=>{const ks=D.mix.filter(c=>c.g===g).map(c=>c.k);
+  return [...Array(12)].map((_,i)=>ks.reduce((a,k)=>a+serieCat(k)[i],0));};
+
+function drawEst(){
+  const W=1180,H=260,L=82,R=18,T=18,Bm=32;
+  const S=GR.map(([g])=>serie(g));
+  const tot=[...Array(12)].map((_,i)=>S.reduce((a,s)=>a+s[i],0));
+  const mx=Math.max(...tot,1)*1.14, bw=(W-L-R)/12, bar=bw*0.56, y=v=>T+(mx-v)/mx*(H-T-Bm);
+  let s='';
+  for(let i=0;i<=4;i++){const v=mx*i/4,yy=y(v);
+    s+=`<line x1="${L}" y1="${yy.toFixed(1)}" x2="${W-R}" y2="${yy.toFixed(1)}" stroke="#232F4E"/>`;
+    s+=`<text x="${L-9}" y="${(yy+4).toFixed(1)}" text-anchor="end" fill="#6C7A99" font-size="10.5">${mo(v)}</text>`;}
+  const xc=L+8*bw;
+  s+=`<line x1="${xc.toFixed(1)}" y1="${T}" x2="${xc.toFixed(1)}" y2="${H-Bm}" stroke="#D8B23C" stroke-width="1.2" stroke-dasharray="5,4" opacity=".7"/>`;
+  s+=`<text x="${(xc+7).toFixed(1)}" y="${T+11}" fill="#D8B23C" font-size="10" font-weight="700" letter-spacing=".6">PRESUPUESTO</text>`;
+  s+=`<text x="${(xc-7).toFixed(1)}" y="${T+11}" fill="#93A0BC" font-size="10" font-weight="700" letter-spacing=".6" text-anchor="end">REAL</text>`;
+  for(let i=0;i<12;i++){
+    let acc=0; const x=L+bw*i+(bw-bar)/2;
+    S.forEach((ser,k)=>{const v=ser[i]; if(v<=0){acc+=v;return;}
+      const y1=y(acc+v), h=Math.max(y(acc)-y(acc+v),0.5);
+      s+=`<rect x="${x.toFixed(1)}" y="${y1.toFixed(1)}" width="${bar.toFixed(1)}" height="${h.toFixed(1)}" fill="${GR[k][2]}" opacity="${i<8?.9:.5}" ${i<8?"":`stroke="${GR[k][2]}" stroke-width=".8" stroke-dasharray="2.5,2"`}/>`;
+      acc+=v;});
+    s+=`<text x="${(x+bar/2).toFixed(1)}" y="${(y(acc)-6).toFixed(1)}" text-anchor="middle" fill="#AFC0E0" font-size="9.5" font-weight="600">${mk(acc)}</text>`;
+    s+=`<text x="${(x+bar/2).toFixed(1)}" y="${H-11}" text-anchor="middle" fill="${i<8?'#93A0BC':'#6C7A99'}" font-size="11" font-weight="600">${D.meses[i]}</text>`;
+  }
+  $("#chEst").innerHTML=s;
+  $("#estLeg").innerHTML=GR.map(([g,n,c])=>`<span><i style="background:${c}"></i>${n}</span>`).join("")
+    +'<span style="color:#6C7A99">Barra llena = ejecutado · barra punteada = presupuesto</span>';
+  $("#estNota").textContent="Enero a agosto con el ejecutado del libro; septiembre a diciembre con el presupuesto. "
+    +"Año 2026: $909,372 ($637,489 reales + $271,883 presupuestados).";
+}
+function drawPre(){
+  let th='<tr><th>Categoría</th>'+D.meses.map((x,i)=>`<th class="r${i>=8?' fc':''}">${x}</th>`).join("")+'<th class="r">Total</th></tr>';
+  $("#tPre thead").innerHTML=th;
+  let tb='';
+  D.mix.forEach((c,ci)=>{
+    const v=serieCat(c.k), t=v.reduce((a,b)=>a+b,0);
+    if(!t && !v.some(q=>q)) return;
+    tb+=`<tr class="cat${OPC.has(ci)?" op":""}" data-c="${ci}"><td>${c.k}</td>`
+      +v.map(q=>`<td class="r ${q?'':'mut'}">${q?mo(q):'—'}</td>`).join("")
+      +`<td class="r"><b>${mo(t)}</b></td></tr>`;
+    if(OPC.has(ci)) items(c.k).forEach(x=>{
+      const xt=x.v.reduce((a,b)=>a+b,0); if(!xt) return;
+      tb+=`<tr class="it"><td>${x.n}<span class="p${x.p}">${x.p}</span></td>`
+        +x.v.map(q=>`<td class="r ${q?'':'mut'}">${q?mo(q):'—'}</td>`).join("")
+        +`<td class="r">${mo(xt)}</td></tr>`;
+    });
+  });
+  const tv=[...Array(12)].map((_,i)=>D.mix.reduce((a,c)=>a+serieCat(c.k)[i],0));
+  tb+='<tr class="tot"><td>Total estructura</td>'+tv.map(q=>`<td class="r">${mo(q)}</td>`).join("")
+    +`<td class="r">${mo(tv.reduce((a,b)=>a+b,0))}</td></tr>`;
+  $("#tPre tbody").innerHTML=tb;
+  $$("#tPre tr.cat").forEach(tr=>tr.onclick=()=>{
+    const c=+tr.dataset.c; OPC.has(c)?OPC.delete(c):OPC.add(c); drawPre();});
+  $("#estPie").textContent="Clic en una categoría para abrir el detalle. En los meses reales el detalle es el del libro (personas y proveedores); "
+    +"de septiembre en adelante es el presupuesto. Los sep–dic coinciden con Total Expenses del forecast y ene–ago con Labor Cost + Management Fee + Structure Cost del Billing.";
+}
+drawRO(); drawCaja(); drawEst(); drawPre();
+
+
+/* ================= HOJA INVERSIONES ================= */
+const fm=x=>mo(x);
+const pc=x=>x.toFixed(2)+"%";
+function incomes(){
+  const I=D.inv, L=I.letras, E=I.estructura;
+  const lad=E.l3*L["3m"]/100+E.l6*L["6m"]/100;
+  return I.caminos.map(c=>({c, mm:MMV()*c.mm.y/100, lad, tot:MMV()*c.mm.y/100+lad}));
+}
+$("#inPiso").onchange=()=>{let v=Math.round((+$("#inPiso").value||0)/1000)*1000; v=Math.min(Math.max(v,0),INVT()); $("#inPiso").value=v; PISOV=v; refresh();};
+
+function drawInv(){
+  const I=D.inv, E=I.estructura, L=I.letras, R=incomes();
+  const jp=R.find(r=>r.c.id==="jpm"), fi=R.find(r=>r.c.id==="fid"), va=R.find(r=>r.c.id==="van"), c=jp.c;
+  const f26=runout(0).fin.slice(0,4).reduce((a,b)=>a+b,0);
+  $("#invK").innerHTML=
+   `<div class="kpi s"><div class="lb">Instrumento</div><div class="vl s">${c.mm.t} · ${pc(c.mm.y)}</div><div class="sb">${c.mm.n} · al ${c.mm.f}</div></div>`
+  +`<div class="kpi o"><div class="lb">Letras al ${L.fecha}</div><div class="vl o">${pc(L["3m"])} · ${pc(L["6m"])}</div><div class="sb">3 y 6 meses · ${fm(E.l3+E.l6)} en escalera</div></div>`
+  +`<div class="kpi g"><div class="lb">Rendimiento anual estimado</div><div class="vl g">${fm(jp.tot)}</div><div class="sb">money market ${fm(jp.mm)} · letras ${fm(jp.lad)}</div></div>`
+  +`<div class="kpi g"><div class="lb">En el resultado 2026</div><div class="vl g">${fm(f26)}</div><div class="sb">rendimiento oct–dic incluido en Resultados</div></div>`;
+  $("#invNext").innerHTML=`<div class="ct">Próximo paso</div>
+   <div class="th2" style="margin:12px 0 0"><div class="tcard"><div class="tg">Abrir la cuenta · fecha límite 5/10/2026</div><ul>
+    <li>Cuenta de inversión de DTP LLC en J.P. Morgan, con Hagai y el banker licenciado de JPMC.</li>
+    <li>A confirmar en el alta: fondo, clase y costos de la cuenta de empresa.</li>
+    <li>Con la cuenta abierta: transferencia interna desde Chase (${c.mov.split(":")[1].trim()}), compra del money market y de las letras.</li></ul></div>
+   <div class="tcard"><div class="tg">Por qué J.P. Morgan</div><ul>${c.pro.map(x=>`<li>${x}</li>`).join("")}</ul></div></div>`;
+  // estructura
+  $("#tEst thead").innerHTML='<tr><th>Tramo</th><th>Instrumento</th><th class="r">Monto</th><th class="r">Tasa</th><th class="r">Rinde por año</th><th>Liquidez</th></tr>';
+  $("#tEst tbody").innerHTML=
+   `<tr><td>Piso operativo</td><td>Cuenta Chase</td><td class="r">${fm(PISOV)}</td><td class="r mut">—</td><td class="r mut">—</td><td>Inmediata · para pagos del mes</td></tr>`
+  +`<tr><td>Liquidez</td><td><b>${c.mm.t}</b> · ${c.mm.n}</td><td class="r">${fm(MMV())}</td><td class="r">${pc(c.mm.y)}</td><td class="r">${fm(jp.mm)}</td><td>Rescate al día siguiente, transferencia interna</td></tr>`
+  +`<tr><td>Letras 3 meses</td><td>Tesoro EEUU · mercado secundario</td><td class="r">${fm(E.l3)}</td><td class="r">${pc(L["3m"])}</td><td class="r">${fm(E.l3*L["3m"]/100)}</td><td>Al vencer · enero 2027</td></tr>`
+  +`<tr><td>Letras 6 meses</td><td>Tesoro EEUU · mercado secundario</td><td class="r">${fm(E.l6)}</td><td class="r">${pc(L["6m"])}</td><td class="r">${fm(E.l6*L["6m"]/100)}</td><td>Al vencer · abril 2027</td></tr>`
+  +`<tr class="tot"><td>Total</td><td></td><td class="r">${fm(PISOV+MMV()+E.l3+E.l6)}</td><td></td><td class="r">${fm(jp.tot)}</td><td></td></tr>`;
+  $("#estInvNota").textContent="Rendimiento anualizado sobre la estructura inicial; el ingreso real baja a medida que se usa la caja en 2027. Tasas variables a la fecha indicada.";
+  // comparación (referencia)
+  const best=R.reduce((a,b)=>b.tot>a.tot?b:a);
+  const W=1180,L0=250,Rg=120; const mx=Math.max(...R.map(r=>r.tot))*1.05; let s='';
+  R.forEach((r,i)=>{const y=18+i*56, w1=r.lad/mx*(W-L0-Rg), w2=r.mm/mx*(W-L0-Rg), el=r.c.id==="jpm";
+    s+=`<text x="${L0-14}" y="${y+22}" text-anchor="end" fill="#E6EAF3" font-size="13" font-weight="600">${r.c.n.split("·")[1].trim()}</text>`;
+    s+=`<text x="${L0-14}" y="${y+38}" text-anchor="end" fill="#6C7A99" font-size="11">${r.c.mm.t} ${pc(r.c.mm.y)}</text>`;
+    s+=`<rect x="${L0}" y="${y+8}" width="${w1.toFixed(1)}" height="28" fill="#6C8EE0" rx="3"/>`;
+    s+=`<rect x="${(L0+w1).toFixed(1)}" y="${y+8}" width="${w2.toFixed(1)}" height="28" fill="${el?'#D8B23C':'#8FA8CF'}" rx="3"/>`;
+    s+=`<text x="${(L0+w1+w2+10).toFixed(1)}" y="${y+27}" fill="${el?'#D8B23C':'#E6EAF3'}" font-size="14" font-weight="700">${fm(r.tot)}${el?' · elegido':''}</text>`;});
+  $("#chInv").innerHTML=s;
+  $("#invNota").innerHTML=`<span style="color:#6C8EE0">■</span> Escalera de letras (igual en todos) &nbsp; <span style="color:#8FA8CF">■</span> Money market.`;
+  $("#invCards").innerHTML=R.map(r=>{const c=r.c, q=c.s, sel=(c.id==="jpm"); return `<div class="icard ${sel?'best':''}">
+   <div class="pick"><span>${sel?'Camino elegido':'Alternativa evaluada'}</span>${sel?'<span class="rec">ELEGIDO</span>':''}</div>
+   <h4>${c.n.split("·")[1].trim()}</h4>
+   <div class="ig">
+     <div><span>Rendimiento anual</span><b class="g">${fm(r.tot)}</b></div>
+     <div><span>Money market</span><b>${pc(c.mm.y)}</b><i>${c.mm.t}</i></div>
+     <div><span>Apertura</span><b>${q.ap}</b><i>${q.apn}</i></div>
+     <div><span>Letras</span><b>${q.let.split("·")[0].trim()}</b><i>${q.let.split("·")[1]||""}</i></div>
+   </div>
+   <div class="row2"><span>Movimiento de fondos</span><b>${q.mov}</b></div>
+   <div class="pc2"><ul class="pro">${q.fp.map(x=>`<li>${x}</li>`).join("")}</ul><ul class="con">${q.fc.map(x=>`<li>${x}</li>`).join("")}</ul></div>
+   ${q.sim?`<div class="sim">${q.sim}</div>`:""}</div>`;}).join("");
+  $("#invConc").innerHTML=`<b>Por qué J.P. Morgan.</b> Rinde ${fm(fi.tot-jp.tot)} por año menos que Fidelity y ${fm(va.tot-jp.tot)} menos que Vanguard, `
+   +`pero esa diferencia se recupera en organización: la plata no sale de Chase, no hay wires ni otra plataforma para operar y conciliar, y la liquidez vuelve a la cuenta al día siguiente.`;
+  // fondos
+  $("#tFondos thead").innerHTML='<tr><th>Plataforma</th><th>Fondo</th><th>Nombre</th><th class="r">7 días</th><th class="r">Fecha</th><th class="r">Mínimo</th><th>Para DTP LLC</th></tr>';
+  $("#tFondos tbody").innerHTML=I.fondos.map(f=>`<tr${f[1]===c.mm.t?' style="background:rgba(216,178,60,.10)"':''}><td>${f[0]}</td><td><b>${f[1]}</b>${f[1]===c.mm.t?' <span class="rec">ELEGIDO</span>':''}</td><td>${f[2]}</td><td class="r">${pc(f[3])}</td><td class="r mut">${f[4]}</td><td class="r">${f[5]}</td><td class="${f[6].startsWith('✓')?'pos':'neg'}">${f[6]}</td></tr>`).join("")
+   +`<tr><td>Tesoro EEUU</td><td><b>Letras</b></td><td>4 semanas · 3 meses · 6 meses · 12 meses</td><td class="r">${pc(L["4s"])} · ${pc(L["3m"])} · ${pc(L["6m"])} · ${pc(L["12m"])}</td><td class="r mut">${L.fecha.slice(0,5)}</td><td class="r">—</td><td class="pos">✓ en cualquier plataforma</td></tr>`;
+  $("#invFuentes").innerHTML="<b>Fuentes.</b> "+I.fuentes.join(" · ");
+}
+
+
+/* ================= HOJA PAYROLL SOCIETARIO ================= */
+function efecto(k){ const oP=PAY,oS=PSC; PAY=true; PSC=k; const R0=runout(0), f26=R0.fin.slice(0,4).reduce((a,b)=>a+b,0);
+  const r26=D.est.r26+exT()+f26-paySD(); let fl="después de dic 2027"; for(let j=5;j<=16;j++){ if(R0.con[j]<0){fl=R0.lab[j].replace(" 27"," 2027"); break;} }
+  const eq=equilibrio(); PAY=oP; PSC=oS; return {r26,fl,eq}; }
+function drawPay(){
+  const p=pcalc(PSC), keys=Object.keys(PSCN).filter(k=>!PSCN[k].opt||SHOWC), ssHoy=126000*0.153;
+  $("#lnkC").textContent=SHOWC?"Ocultar escenario de costo neutro":"Mostrar escenario de costo neutro";
+  $("#payCards").style.gridTemplateColumns=`repeat(${keys.length},1fr)`;
+  $("#payCards").innerHTML=keys.map(k=>{const q=pcalc(k), e=efecto(k), sel=(k===PSC), ss27=q.g*12*0.153+231;
+    return `<div class="icard ${sel?'best':''}" data-k="${k}">
+     <div class="pick"><span><span class="rd"></span>${sel?'Seleccionado':'Seleccionar'}</span>${k==='A'?'<span class="rec">CONFIRMADO</span>':''}</div>
+     <h4>${PSCN[k].n}</h4><div class="mini" style="margin:-4px 0 8px">${PSCN[k].s}</div>
+     <div class="ig">
+      <div><span>En mano</span><b class="g">${mo(q.mano)}</b><i>${q.mano<10499?mo(q.mano-10500)+' vs. hoy':'igual que hoy'}</i></div>
+      <div><span>Sueldo bruto</span><b>${mo(q.g)}</b><i>por socia</i></div>
+      <div><span>Costo DTP · las tres</span><b>${mo(3*q.cost)}</b><i>${q.incr>0.5?'+'+mo(3*q.incr)+' vs. hoy':'igual que hoy'}</i></div>
+      <div><span>Ahorro 2026</span><b class="g">${mo(96000*0.153+42000*0.153-(q.g*4*0.153+231))}</b><i>por socia</i></div>
+     </div>
+     <div class="row2"><span>Resultado 2026</span><b>${mo(e.r26)}</b></div>
+     <div class="row2"><span>Run-out</span><b>${e.fl}</b></div>
+     <div class="row2"><span>Equilibrio 2027</span><b>${mo(e.eq)} / mes</b></div>
+     </div>`;}).join("");
+  $$("#payCards .icard").forEach(el=>el.onclick=()=>{PSC=el.dataset.k; refresh();});
+  if(!$("#tRec")) return;
+  // recibo del escenario elegido
+  $("#recT").textContent=`El recibo de cada socia · ${PSCN[PSC].n}`+(PSC==="A"?" · igual al reporte de Gusto":"");
+  $("#tRec tbody").innerHTML=[
+   ["Sueldo bruto",p.g,p.g,"Base de todo el cálculo"],
+   ["Retención federal · 5%",-p.fed,null,"Anticipo del impuesto a la renta de cada una"],
+   ["Seguridad social · 6,2% + 6,2%",-p.g*0.062,p.g*0.062,"Mitad la paga ella, mitad DTP"],
+   ["Medicare · 1,45% + 1,45%",-p.g*0.0145,p.g*0.0145,"Ídem"],
+   ["Desempleo federal (FUTA) · 0,6%",null,42,"Solo el primer mes del año"],
+   ["Desempleo de Florida · 2,7%",null,189,"Solo el primer mes del año"]].map(r=>`<tr><td>${r[0]}</td><td class="r ${r[1]<0?'neg':''}">${r[1]==null?'—':mo(r[1])}</td><td class="r">${r[2]==null?'—':mo(r[2])}</td><td class="mut">${r[3]}</td></tr>`).join("")
+   +`<tr class="tot"><td>Total</td><td class="r">${mo(p.net)} en mano</td><td class="r">${mo(p.cost)} costo</td><td>${mo(p.cost+231)} en septiembre</td></tr>`;
+  // ahorro dinámico
+  const sep=p.g*4, sc=sep*0.153, tot=sc+231, sin=96000*0.153+42000*0.153;
+  $("#ahoT").textContent=`De dónde sale el ahorro · seguridad social 2026 por socia · ${PSCN[PSC].n}`;
+  $("#tAho tbody").innerHTML=
+   `<tr><td><b>Enero–agosto</b></td><td>Retiros $96,000 × 15,3%</td><td class="r">${mo(96000*0.153)}</td><td>Pasa a distribución</td><td class="r">$0</td><td class="r pos"><b>${mo(-96000*0.153)}</b></td></tr>`
+  +`<tr><td><b>Septiembre–diciembre</b></td><td>Retiros $42,000 × 15,3%</td><td class="r">${mo(42000*0.153)}</td><td>Sueldo ${mo(sep)} × 15,3%</td><td class="r">${mo(sc)}</td><td class="r ${sc-6426>0?'neg':'pos'}">${sc-6426>=0?'+':''}${mo(sc-6426)}</td></tr>`
+  +`<tr><td><b>Desempleo</b></td><td>—</td><td class="r">$0</td><td>Federal y Florida, primer mes</td><td class="r">$231</td><td class="r neg">+$231</td></tr>`
+  +`<tr class="tot"><td>Total</td><td></td><td class="r">${mo(sin)}</td><td></td><td class="r">${mo(tot)}</td><td class="r pos">${mo(tot-sin)}</td></tr>`;
+  const a=pcalc("A"), bb=pcalc("B");
+  $("#ul27").innerHTML=`<li>En 2027 no hay enero–agosto para pasar a distribución.</li>`
+   +`<li>Solo el sueldo paga seguridad social: lo cobrado por encima, como distribución, no paga.</li>`
+   +`<li>El ahorro depende de cuánto se cobre como sueldo y cuánto como distribución. A definir con Yenny.</li>`;
+}
+
+$("#lnkC").onclick=()=>{SHOWC=!SHOWC; if(!SHOWC&&PSC==="C") PSC="A"; refresh();};
+fillSel(true); drawT(); setPay(true); drawInv();
+window.addEventListener("resize",drawM);
+</script>
+</div>
+</body>
+</html>
